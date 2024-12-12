@@ -12,3 +12,5 @@ services:
       - ${FRONTEND_HMR_PORT}:3010
     volumes:
       - ./frontend:/frontend
+      - ./biome.json:/biome.json
+      - ./.gitignore:/.gitignore
