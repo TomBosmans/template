@@ -1,0 +1,14 @@
+services:
+  frontend:
+    container_name: ${APP_NAME}_frontend
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    stdin_open: true
+    ports:
+      - ${FRONTEND_PORT}:3000
+      - ${FRONTEND_HMR_PORT}:3010
+    volumes:
+      - ./frontend:/frontend
