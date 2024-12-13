@@ -15,6 +15,13 @@ updates:
       interval: "weekly"
 
   - package-ecosystem: "npm"
+    directory: "/database"
+    target-branch: "main"
+    open-pull-requests-limit: 10
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "npm"
     directory: "/backend"
     target-branch: "main"
     open-pull-requests-limit: 10
