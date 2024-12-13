@@ -20,6 +20,7 @@ jobs:
       contents: read
     outputs:
       frontend: ${{ steps.filter.outputs.frontend }}
+      backend: ${{ steps.filter.outputs.backend }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -30,6 +31,8 @@ jobs:
           filters: |
             frontend:
               - 'frontend/**'
+            backend:
+              - 'backend/**'
 
   frontend-lint:
     needs: changes
@@ -96,6 +99,75 @@ jobs:
       - name: npm test
         run: |
           cd frontend
+          npm test
+        env:
+          VITE_EXAMPLE: example
+
+  backend-lint:
+    needs: changes
+    if: ${{ needs.changes.outputs.backend == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+          cache-dependency-path: backend/package-lock.json
+      - uses: actions/cache@v4
+        with:
+          path: "backend/node_modules"
+          key: ${{ runner.os }}-backend-node-modules-${{ hashFiles('backend/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-backend-node-modules-${{ hashFiles('backend/package-lock.json') }}
+            ${{ runner.os }}-backend-node-modules-
+      - name: npm run lint
+        run: |
+          cd backend
+          npm ci
+          npm run lint
+
+  backend-build:
+    runs-on: ubuntu-latest
+    needs: backend-lint
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+          cache-dependency-path: backend/package-lock.json
+      - uses: actions/cache/restore@v4
+        with:
+          path: "backend/node_modules"
+          key: ${{ runner.os }}-backend-node-modules-${{ hashFiles('backend/package-lock.json') }}
+          fail-on-cache-miss: true
+      - name: npm run build
+        run: |
+          cd backend
+          npm run build
+        env:
+          VITE_EXAMPLE: example
+
+  backend-test:
+    runs-on: ubuntu-latest
+    needs: backend-build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+          cache-dependency-path: backend/package-lock.json
+      - uses: actions/cache/restore@v4
+        with:
+          path: "backend/node_modules"
+          key: ${{ runner.os }}-backend-node-modules-${{ hashFiles('backend/package-lock.json') }}
+          fail-on-cache-miss: true
+      - name: npm test
+        run: |
+          cd backend
           npm test
         env:
           VITE_EXAMPLE: example
