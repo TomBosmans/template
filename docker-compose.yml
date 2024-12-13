@@ -14,3 +14,20 @@ services:
       - ./frontend:/frontend
       - ./biome.json:/biome.json
       - ./.gitignore:/.gitignore
+      - ./.env:/.env
+
+  backend:
+    container_name: ${APP_NAME}_backend
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    stdin_open: true
+    ports:
+      - ${BACKEND_PORT}:3000
+    volumes:
+      - ./backend:/backend
+      - ./biome.json:/biome.json
+      - ./.gitignore:/.gitignore
+      - ./.env:/.env
