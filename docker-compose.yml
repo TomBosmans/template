@@ -31,3 +31,28 @@ services:
       - ./biome.json:/biome.json
       - ./.gitignore:/.gitignore
       - ./.env:/.env
+      - ./database/db.d.ts:/database/db.d.ts
+
+  database:
+    container_name: ${APP_NAME}_database
+    build:
+      context: database
+      dockerfile: Dockerfile
+    environment:
+      - DATABASE_URL=postgres://${POSTGRES_USER}@postgres:5432/${POSTGRES_DATABASE}?sslmode=disable
+    volumes:
+      - ./database:/database
+      - ./.env:/.env
+
+  postgres:
+    container_name: ${APP_NAME}_postgres
+    image: postgres:17
+    env_file:
+      - .env
+    ports:
+      - ${POSTGRES_PORT}:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+volumes:
+  postgres:

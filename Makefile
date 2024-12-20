@@ -1,3 +1,5 @@
+include .env
+
 start:
 	@docker compose start $(service)
 
@@ -18,3 +20,9 @@ build:
 
 shell:
 	@docker compose run --rm --no-deps $(service) sh
+
+open:
+	open http://localhost:$($(shell echo ${service}_PORT | tr '[:lower:]' '[:upper:]'))
+
+psql:
+	@docker compose exec postgres sh -c "su - postgres -c 'psql $${db:-$(POSTGRES_DATABASE)}'"
