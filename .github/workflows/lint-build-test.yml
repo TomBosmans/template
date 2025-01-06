@@ -177,6 +177,7 @@ jobs:
 
   database-migrations:
     runs-on: ubuntu-latest
+    if: ${{ needs.changes.outputs.database == 'true' }}
     needs: changes
     services:
       postgres:
