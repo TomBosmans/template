@@ -22,6 +22,7 @@ jobs:
       frontend: ${{ steps.filter.outputs.frontend }}
       backend: ${{ steps.filter.outputs.backend }}
       database: ${{ steps.filter.outputs.database }}
+      mails: ${{ steps.filter.outputs.mails }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -36,6 +37,33 @@ jobs:
               - 'backend/**'
             database:
               - 'database/migrations/**'
+            mails:
+              - 'mails/**'
+
+  mails-lint:
+    needs: changes
+    if: ${{ needs.changes.outputs.mails == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+          cache-dependency-path: mails/package-lock.json
+      - uses: actions/cache@v4
+        with:
+          path: "mails/node_modules"
+          key: ${{ runner.os }}-mails-node-modules-${{ hashFiles('mails/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-mails-node-modules-${{ hashFiles('mails/package-lock.json') }}
+            ${{ runner.os }}-mails-node-modules-
+      - name: npm run lint
+        run: |
+          cd mails
+          npm ci
+          npm run lint
 
   frontend-lint:
     needs: changes
