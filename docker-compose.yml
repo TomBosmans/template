@@ -32,6 +32,7 @@ services:
       - ./.gitignore:/.gitignore
       - ./.env:/.env
       - ./database/db.d.ts:/database/db.d.ts
+      - ./mails:/mails
 
   database:
     container_name: ${APP_NAME}_database

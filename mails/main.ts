@@ -1,3 +1,2 @@
-import MailService from "./services/react-email-mail.service"
-
-export default MailService
+export { ReacEmailMailService } from "./services/react-email-mail.service.ts"
+export { type MailService } from "./services/interfaces.ts"

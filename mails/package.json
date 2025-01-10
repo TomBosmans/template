@@ -1,7 +1,7 @@
 {
-  "name": "react-email-starter",
-  "version": "0.1.6",
-  "private": true,
+  "name": "mails",
+  "main": "main.ts",
+  "type": "module",
   "scripts": {
     "build": "email build",
     "dev": "email dev",
