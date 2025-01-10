@@ -14,9 +14,10 @@ export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 export interface Users {
   createdAt: Generated<Timestamp | null>;
   email: string;
+  firstName: string;
   id: Generated<number>;
+  lastName: string;
   password: string;
-  userName: string;
 }
 
 export interface DB {

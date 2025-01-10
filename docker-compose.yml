@@ -44,6 +44,22 @@ services:
       - ./database:/database
       - ./.env:/.env
 
+  storybook:
+    container_name: ${APP_NAME}_storybook
+    build:
+      context: frontend
+      dockerfile: Dockerfile.storybook
+    env_file:
+      - .env
+    stdin_open: true
+    ports:
+      - ${STORYBOOK_PORT}:6006
+    volumes:
+      - ./frontend:/storybook
+      - ./biome.json:/biome.json
+      - ./.gitignore:/.gitignore
+      - ./.env:/.env
+
   mails:
     container_name: ${APP_NAME}_mails
     build:
