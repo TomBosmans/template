@@ -44,6 +44,42 @@ services:
       - ./database:/database
       - ./.env:/.env
 
+  storybook:
+    container_name: ${APP_NAME}_storybook
+    build:
+      context: frontend
+      dockerfile: Dockerfile.storybook
+    env_file:
+      - .env
+    stdin_open: true
+    ports:
+      - ${STORYBOOK_PORT}:6006
+    volumes:
+      - ./frontend:/storybook
+      - ./biome.json:/biome.json
+      - ./.gitignore:/.gitignore
+      - ./.env:/.env
+
+  mails:
+    container_name: ${APP_NAME}_mails
+    build:
+      context: mails
+      dockerfile: Dockerfile
+    ports:
+      - ${MAILS_PORT}:3000
+    volumes:
+      - ./mails:/mails
+      - ./.env:/.env
+      - ./biome.json:/biome.json
+      - ./.gitignore:/.gitignore
+
+  mailpit:
+    container_name: ${APP_NAME}_mailpit
+    image: axllent/mailpit
+    ports:
+      - ${MAILPIT_PORT}:8025
+      - ${MAILPIT_SMTP_PORT}:1025
+
   postgres:
     container_name: ${APP_NAME}_postgres
     image: postgres:17
