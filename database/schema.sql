@@ -29,7 +29,8 @@ CREATE TABLE public.schema_migrations (
 
 CREATE TABLE public.users (
     id integer NOT NULL,
-    user_name character varying(50) NOT NULL,
+    first_name character varying(50) NOT NULL,
+    last_name character varying(50) NOT NULL,
     email character varying(100) NOT NULL,
     password character varying(255) NOT NULL,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
