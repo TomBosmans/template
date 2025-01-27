@@ -16,7 +16,7 @@
     "codegen": "kysely-codegen --camel-case --env-file=../.env --out-file=db.d.ts --exclude-pattern='public.schema_migrations'"
   },
   "dependencies": {
-    "dbmate": "^2.24.2"
+    "dbmate": "^2.25.0"
   },
   "devDependencies": {
     "kysely": "^0.27.5",
