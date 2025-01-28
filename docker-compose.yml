@@ -53,11 +53,10 @@ services:
       - .env
     stdin_open: true
     ports:
-      - ${STORYBOOK_PORT}:6006
+      - ${STORYBOOK_PORT}:3000
+      - ${STORYBOOK_HMR_PORT}:3010
     volumes:
       - ./frontend:/storybook
-      - ./biome.json:/biome.json
-      - ./.gitignore:/.gitignore
       - ./.env:/.env
 
   mails:

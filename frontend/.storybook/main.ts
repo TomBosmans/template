@@ -4,10 +4,10 @@ const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
 
   addons: [
-    "@storybook/addon-onboarding",
     "@storybook/addon-essentials",
     "@chromatic-com/storybook",
     "@storybook/addon-interactions",
+    "@storybook/addon-themes",
   ],
 
   framework: {
@@ -19,6 +19,11 @@ const config: StorybookConfig = {
 
   typescript: {
     reactDocgen: "react-docgen-typescript",
+  },
+
+  viteFinal: async (config) => {
+    const { mergeConfig } = await import("vite")
+    return mergeConfig(config, { server: { hmr: { port: 3010 } } })
   },
 }
 export default config
