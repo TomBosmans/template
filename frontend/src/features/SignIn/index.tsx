@@ -1,36 +1,34 @@
-import Button from "@mui/material/Button"
 import Divider from "@mui/material/Divider"
 import Grid from "@mui/material/Grid2"
 import Paper from "@mui/material/Paper"
 import Typography from "@mui/material/Typography"
-import { useSetAtom } from "jotai"
-import { Form } from "./form"
-import { handleForgotPasswordAtom, handleSignInAtom, handleSignUpAtom } from "./state"
+import { Form, OnSubmit } from "./form"
+import { RoutePath } from "../../utils/routes"
+import Link from "../../components/Link"
 
-export default function SignIn() {
-  const handleSignIn = useSetAtom(handleSignInAtom)
-  const handleSignUp = useSetAtom(handleSignUpAtom)
-  const handleForgotPassword = useSetAtom(handleForgotPasswordAtom)
-
+export default function SignIn(props: {
+  onSubmit: OnSubmit
+  links: { signUp: RoutePath, forgotPassword: RoutePath }
+}) {
   return (
-    <Form onSubmit={handleSignIn}>
-      <Paper sx={{ padding: 5, maxWidth: 444 }}>
+    <Paper sx={{ padding: 5, maxWidth: 444 }}>
+      <Form onSubmit={props.onSubmit}>
         <Grid container spacing={2}>
           <Grid size={12} sx={{ textAlign: "center" }}>
-            <Typography variant="h3">Sign In</Typography>
+            <Typography variant="h4" sx={{ fontWeight: "bold" }}>Sign in</Typography>
             <Typography variant="subtitle1">Welcome, please sign in to continue</Typography>
           </Grid>
           <Grid size={12}>
             <Form.Errors />
           </Grid>
           <Grid size={12}>
-            <Form.Input id="email" type="email" required />
+            <Form.Input id="email" type="email" autoComplete="email" required />
           </Grid>
           <Grid size={12} sx={{ textAlign: "right" }}>
             <Form.Input id="password" type="password" required />
-            <Button onClick={handleForgotPassword} variant="text" size="small">
+            <Link to={props.links.forgotPassword}>
               Forgot password?
-            </Button>
+            </Link>
           </Grid>
           <Grid size={12}>
             <Form.Input type="checkbox" id="rememberMe" />
@@ -42,12 +40,10 @@ export default function SignIn() {
             <Divider>OR</Divider>
           </Grid>
           <Grid size={12}>
-            <Button onClick={handleSignUp} variant="outlined" fullWidth>
-              Sign Up
-            </Button>
+            <Link button="outlined" to={props.links.signUp}>Sign up</Link>
           </Grid>
         </Grid>
-      </Paper>
-    </Form>
+      </Form>
+    </Paper>
   )
 }

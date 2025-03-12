@@ -7,9 +7,11 @@ import type { FieldValues } from "react-hook-form"
 import TextField, { type TextFieldProps } from "../../../components/TextField"
 import PasswordStrength from "./PasswordStrength"
 
-export default function PasswordField<T extends FieldValues>(
-  { showStrength, userInputs, ...props }: TextFieldProps & { id: keyof T; showStrength?: boolean; userInputs?: Array<keyof T> },
-) {
+export default function PasswordField<T extends FieldValues>({
+  showStrength,
+  userInputs,
+  ...props
+}: TextFieldProps & { id: keyof T; showStrength?: boolean; userInputs?: Array<keyof T> }) {
   const [showPassword, setShowPassword] = useState(false)
   const handleClick = () => setShowPassword(!showPassword)
 

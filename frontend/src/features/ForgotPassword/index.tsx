@@ -1,36 +1,34 @@
-import Button from "@mui/material/Button"
 import Grid from "@mui/material/Grid2"
 import Paper from "@mui/material/Paper"
 import Typography from "@mui/material/Typography"
-import { z } from "zod"
-import createForm from "../../builders/createForm"
+import { Form, OnSubmit } from "./form"
+import Link from "../../components/Link"
+import { RoutePath } from "../../utils/routes"
 
-export default function ForgotPassword() {
-  const { Form } = createForm({
-    schema: z.object({
-      email: z.string().email(),
-    }),
-    name: "forgotPassword",
-  })
-
+export default function ForgotPassword(props: {
+  onSubmit: OnSubmit,
+  links: { signIn: RoutePath }
+}) {
   return (
     <Paper sx={{ padding: 5, maxWidth: 444 }}>
-      <Form onSubmit={() => null}>
+      <Form onSubmit={props.onSubmit}>
         <Grid container spacing={2}>
           <Grid size={12} sx={{ textAlign: "center" }}>
-            <Typography variant="h3">Forgot Password?</Typography>
-            <Typography variant="subtitle1">Fill in you email</Typography>
+            <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+              <Form.Translate i18nKey="title" />
+            </Typography>
+            <Typography variant="subtitle1">
+              <Form.Translate i18nKey="subtitle" components={{ Link: <Link to={props.links.signIn} /> }} />
+            </Typography>
           </Grid>
           <Grid size={12}>
             <Form.Errors />
           </Grid>
           <Grid size={12}>
-            <Form.Input id="email" label="email" type="email" />
+            <Form.Input id="email" type="email" required />
           </Grid>
           <Grid size={12}>
-            <Button type="submit" variant="contained" fullWidth>
-              Send Reset Password request
-            </Button>
+            <Form.SubmitButton />
           </Grid>
         </Grid>
       </Form>

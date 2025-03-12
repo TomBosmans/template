@@ -16,6 +16,14 @@ i18n
             },
           },
           form: {
+            forgotPassword: {
+              title: "Forgot password?",
+              subtitle: "Remember password? <Link>sign in</Link>",
+              email: {
+                label: "E-Mail",
+              },
+              submit: { label: "Send reset password mail" }
+            },
             signIn: {
               submit: {
                 label: "Sign in",

@@ -13,7 +13,7 @@ type InputProps<T extends FieldValues> =
   | ({ type?: "tel" | "text" | "email" } & TextFieldProps)
 
 export default function createInput<T extends FieldValues>(params: Params<T>) {
-  return (props: InputProps<T> & { id: keyof T }) => {
+  return (props: InputProps<T> & { id: keyof T, size?: number }) => {
     const { t } = useTranslation("translation", { keyPrefix: `form.${params.name}.${props.id}` })
     const {
       register,

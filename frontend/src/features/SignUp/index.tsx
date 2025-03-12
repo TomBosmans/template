@@ -1,44 +1,33 @@
 import Button from "@mui/material/Button"
-import Divider from "@mui/material/Divider"
 import Grid from "@mui/material/Grid2"
 import Paper from "@mui/material/Paper"
 import Typography from "@mui/material/Typography"
-import { z } from "zod"
-import createForm from "../../builders/createForm"
+import { Form, OnSubmit } from "./form"
+import Link from "../../components/Link"
+import { RoutePath } from "../../utils/routes"
 
-const schema = z.object({
-  email: z.preprocess((x) => (x === "" ? undefined : x), z.string().email()),
-  firstName: z.preprocess((x) => (x === "" ? undefined : x), z.string()),
-  lastName: z.preprocess((x) => (x === "" ? undefined : x), z.string()),
-  password: z.preprocess((x) => (x === "" ? undefined : x), z.string()),
-  mobile: z.preprocess((x) => (x === "" ? undefined : x), z.string()),
-  passwordConfirmation: z.preprocess((x) => (x === "" ? undefined : x), z.string()),
-})
-
-type Props = {
-  onSignUp: (data: z.input<typeof schema>) => Promise<unknown> | unknown
-  onSignIn?: () => void
-}
-
-const { Form } = createForm({ schema, name: "signUp" })
-
-export default function SignUp(props: Props) {
+export default function SignUp(props: {
+  onSubmit: OnSubmit
+  links: { signIn: RoutePath }
+}) {
   return (
-    <Form onSubmit={(data) => console.log(data)}>
-      <Paper sx={{ padding: 5, maxWidth: 444 }}>
+    <Paper sx={{ padding: 5, maxWidth: 444 }}>
+      <Form onSubmit={props.onSubmit}>
         <Grid container spacing={2}>
           <Grid size={12} sx={{ textAlign: "center" }}>
-            <Typography variant="h3">Sign Up</Typography>
-            <Typography variant="subtitle1">Welcome, please sign up to continue</Typography>
+            <Typography variant="h4" sx={{ fontWeight: "bold" }}>Sign Up</Typography>
+            <Typography variant="subtitle1">
+              Create a free account or <Link to="/sign_in">sign in</Link>
+            </Typography>
           </Grid>
           <Grid size={12}>
             <Form.Errors />
           </Grid>
           <Grid size={12}>
-            <Form.Input required id="email" type="email" />
+            <Form.Input required id="email" type="email" autoComplete="email" />
           </Grid>
           <Grid size={12}>
-            <Form.Input required id="firstName" />
+            <Form.Input required id="firstName" autoComplete="firstName" />
           </Grid>
           <Grid size={12}>
             <Form.Input required id="lastName" />
@@ -63,20 +52,13 @@ export default function SignUp(props: Props) {
               Sign up
             </Button>
           </Grid>
-          {props.onSignIn && (
-            <Grid size={12}>
-              <Divider>OR</Divider>
-            </Grid>
-          )}
-          {props.onSignIn && (
-            <Grid size={12}>
-              <Button variant="outlined" fullWidth>
-                Sign in
-              </Button>
-            </Grid>
-          )}
+          <Grid size={12} marginTop={3}>
+            <Typography>
+              By clicking on Sign up button you agree to our <Link>Terms of conditions</Link> and <Link>Policy Privacy</Link>
+            </Typography>
+          </Grid>
         </Grid>
-      </Paper>
-    </Form>
+      </Form>
+    </Paper>
   )
 }
