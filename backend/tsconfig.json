@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "target": "es2022",
+    "allowSyntheticDefaultImports": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "strictNullChecks": true,
+    "resolveJsonModule": true,
+    "erasableSyntaxOnly": true
+  },
+  "include": ["app"]
+}
