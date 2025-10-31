@@ -17,7 +17,8 @@
     "db:codegen": "kysely-codegen --camel-case --out-file=db/db.d.ts --exclude-pattern='public.schema_migrations'"
   },
   "imports": {
-    "#app/*": "./app/*"
+    "#app/*": "./app/*",
+    "#lib/*": "./lib/*"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.2",
@@ -27,6 +28,7 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "awilix": "^12.0.5",
     "dbmate": "^2.28.0",
     "pg": "^8.16.3"
   }

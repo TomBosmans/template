@@ -10,5 +10,5 @@
     "resolveJsonModule": true,
     "erasableSyntaxOnly": true
   },
-  "include": ["app"]
+  "include": ["app", "lib"]
 }
