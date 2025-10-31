@@ -9,12 +9,18 @@ export default function configFactory({ env }: { env: Record<string, unknown> })
       POSTGRES_PORT: z.coerce.number(),
       POSTGRES_DATABASE_NAME_DEV: z.string(),
       POSTGRES_DATABASE_NAME_TEST: z.string(),
+      POSTGRES_HOST: z.string(),
+      POSTGRES_POOL_MAX: z.coerce.number(),
     })
     .transform((config) => ({
       postgres: {
         port: config.POSTGRES_PORT,
         user: config.POSTGRES_USER,
         password: config.POSTGRES_PASSWORD,
+        host: config.POSTGRES_HOST,
+        pool: {
+          max: config.POSTGRES_POOL_MAX,
+        },
         database: {
           name:
             process.env.NODE_ENV === "test"
