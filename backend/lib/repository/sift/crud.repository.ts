@@ -1,4 +1,6 @@
 import sift from "sift"
+import RecordNotFoundException from "#lib/exceptions/recordNotFound.exception.ts"
+import type Obj from "#lib/types/obj.type.ts"
 import type CrudRepository from "../crudRepository.interface.ts"
 import type {
   CountQueryParams,
@@ -7,8 +9,6 @@ import type {
   SelectQueryParams,
   UpdateQueryParams,
 } from "../types.ts"
-
-type Obj = Record<string, unknown>
 
 export default class MemoryRepository<
   Entity extends Obj,
@@ -48,7 +48,7 @@ export default class MemoryRepository<
     const record = this.findMany(params)[0]
     if (record) return record
 
-    throw new Error("Record not found")
+    throw new RecordNotFoundException({ entity: "unknown", condition: params.where })
   }
 
   public count(params: CountQueryParams<Entity>) {
@@ -58,21 +58,32 @@ export default class MemoryRepository<
 
   public createOne(newRecord: InsertQueryParams<NewEntityDTO>) {
     const record = this.prepareNewEntity(newRecord)
+    this.validateEntity(record, "create")
     this.storage.push(record)
     return record
   }
+
   public createMany(newRecords: Array<InsertQueryParams<NewEntityDTO>>) {
-    const records = newRecords.map((newRecord) => this.prepareNewEntity(newRecord))
+    const records = newRecords.map((newRecord) => {
+      const record = this.prepareNewEntity(newRecord)
+      this.validateEntity(record, "create")
+      return record
+    })
+
     this.storage.push(...records)
     return records
   }
+
   public update(params: UpdateQueryParams<Entity, UpdateEntityDTO>) {
     const updatedRecords: Entity[] = []
-    this.storage.forEach((record, index) => {
+    this.storage = this.storage.map((record) => {
       if (sift.default(params)(record)) {
-        this.storage[index] = { ...this.storage[index], ...this.prepareUpdatedEntity(params.set) }
-        updatedRecords.push(this.storage[index])
+        const updatedRecord = { ...record, ...this.prepareUpdatedEntity(params.set) }
+        this.validateEntity(updatedRecord, "update")
+        updatedRecords.push(updatedRecord)
+        return updatedRecord
       }
+      return record
     })
 
     return updatedRecords
@@ -93,4 +104,6 @@ export default class MemoryRepository<
   protected prepareUpdatedEntity(updateEntityDTO: UpdateEntityDTO): UpdateEntityDTO {
     return updateEntityDTO
   }
+
+  protected validateEntity(_data: Entity, _action: "create" | "update"): void {}
 }

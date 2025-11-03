@@ -1,6 +1,8 @@
 import { randomUUID } from "node:crypto"
 import type { Insertable, Selectable, Updateable } from "kysely"
+import sift from "sift"
 import type { DB } from "#db/db.d.ts"
+import ValidationException from "#lib/exceptions/validation.exception.ts"
 import MemoryRepository from "#lib/repository/sift/crud.repository.ts"
 
 /**
@@ -33,13 +35,28 @@ export default function createMemoryRepository<Table extends keyof DB>(
   type UpdateEntityDTO = Updateable<DB[Table]>
 
   return class extends MemoryRepository<Entity, NewEntityDTO, UpdateEntityDTO> {
-    protected generatedAttributes(data: NewEntityDTO) {
+    protected prepareNewEntity(data: NewEntityDTO) {
       const now = new Date()
       return { ...data, id: randomUUID(), createdAt: now, updatedAt: now } as Entity
     }
 
-    protected updateAttributes(data: UpdateEntityDTO): UpdateEntityDTO {
+    protected prepareUpdatedEntity(data: UpdateEntityDTO): UpdateEntityDTO {
       return { ...data, updatedAt: new Date() }
+    }
+
+    protected validateEntity(data: Entity, action: "create" | "update"): void {
+      if (
+        action === "create" &&
+        this.storage.find(sift.default({ where: { id: (data as { id: string }).id } }))
+      ) {
+        throw new ValidationException([
+          {
+            code: "not_unique",
+            path: ["id"],
+            message: `id is not unique`,
+          },
+        ])
+      }
     }
   }
 }
