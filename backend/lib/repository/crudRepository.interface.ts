@@ -20,4 +20,5 @@ export default interface CrudRepository<
   createMany(params: Array<InsertQueryParams<NewEntityDTO>>): Promise<Array<Entity>> | Entity[]
   update(params: UpdateQueryParams<Entity, UpdateEntityDTO>): Promise<Entity[]> | Entity[]
   delete(params: DeleteQueryParams<Entity>): Promise<void> | void
+  truncate(): Promise<void> | void
 }

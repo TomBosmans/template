@@ -2,7 +2,8 @@
   "name": "backend",
   "type": "module",
   "scripts": {
-    "test": "node --no-warnings --experimental-strip-types --test '**/*.spec.ts'",
+    "test": "NODE_ENV=test node --no-warnings --experimental-strip-types --test '**/*.spec.ts'",
+    "test:file": "NODE_ENV=test node --no-warnings --experimental-strip-types --test",
     "dev": "node --no-warnings --experimental-strip-types --watch-path . 'app/main.ts'",
     "lint": "biome check .",
     "tsc": "tsc --noEmit",

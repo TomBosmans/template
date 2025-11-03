@@ -1,4 +1,4 @@
-import type { Insertable, Kysely, Selectable, Updateable } from "kysely"
+import { sql, type Insertable, type Kysely, type Selectable, type Updateable } from "kysely"
 import type { DB } from "#db/db.js"
 import RecordNotFoundException from "#lib/exceptions/recordNotFound.exception.ts"
 import ValidationException from "#lib/exceptions/validation.exception.ts"
@@ -104,6 +104,10 @@ export default function createKyselyRepository<Table extends keyof DB>(table: Ta
 
     public async delete(params: unknown) {
       await deleteQuery(table, params as DeleteQueryParams<Table>, this.db).execute()
+    }
+
+    public async truncate() {
+      await sql`TRUNCATE TABLE ${sql.id(table)} RESTART IDENTITY CASCADE`.execute(this.db)
     }
 
     private handleError(error: unknown): never {

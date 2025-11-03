@@ -17,3 +17,11 @@ export default function containerFactory(): DIContainer<AppRegistry> {
   container.register(UserRepository, { name: "userRepository", type: "class" })
   return container
 }
+
+export function testContainerFactory(): DIContainer<{ db: KyselyDatabase }> {
+  const container = new AwilixContainer()
+  container.register(process.env, { name: "env", type: "value" })
+  container.register(configFactory, { name: "config", type: "function" })
+  container.register(KyselyDatabase, { name: "db", type: "class" })
+  return container
+}

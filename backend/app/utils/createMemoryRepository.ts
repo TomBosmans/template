@@ -5,6 +5,8 @@ import type { DB } from "#db/db.d.ts"
 import ValidationException from "#lib/exceptions/validation.exception.ts"
 import MemoryRepository from "#lib/repository/sift/crud.repository.ts"
 
+export type Action = "create" | "update"
+
 /**
  * Factory function that creates an in-memory repository class for a specific database table.
  *
@@ -37,26 +39,30 @@ export default function createMemoryRepository<Table extends keyof DB>(
   return class extends MemoryRepository<Entity, NewEntityDTO, UpdateEntityDTO> {
     protected prepareNewEntity(data: NewEntityDTO) {
       const now = new Date()
-      return { ...data, id: randomUUID(), createdAt: now, updatedAt: now } as Entity
+      return { id: randomUUID(), createdAt: now, updatedAt: now, ...data } as Entity
     }
 
     protected prepareUpdatedEntity(data: UpdateEntityDTO): UpdateEntityDTO {
-      return { ...data, updatedAt: new Date() }
+      return { updatedAt: new Date(), ...data }
     }
 
-    protected validateEntity(data: Entity, action: "create" | "update"): void {
-      if (
-        action === "create" &&
-        this.storage.find(sift.default({ where: { id: (data as { id: string }).id } }))
-      ) {
+    /**
+      * WARNING: DO not override this method! use #validate instead
+     */
+    protected validateEntity(data: Entity, action: Action): void {
+      this.validate(data, action)
+      const id = (data as { id: string }).id
+      if (action === "create" && this.storage.find(sift.default({ id }))) {
         throw new ValidationException([
           {
             code: "not_unique",
             path: ["id"],
-            message: `id is not unique`,
+            message: `${id} is not unique`,
           },
         ])
       }
     }
+
+    protected validate(_data: Entity, _action: Action) {}
   }
 }

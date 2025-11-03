@@ -5,7 +5,7 @@ import Issue from "#lib/exceptions/issue.ts"
 import IssueCode from "#lib/exceptions/issueCode.enum.ts"
 import ValidationException from "#lib/exceptions/validation.exception.ts"
 import type DTO from "./interface.ts"
-import Obj from "#lib/types/obj.type.ts"
+import type Obj from "#lib/types/obj.type.ts"
 
 type SchemaObject = ReturnType<typeof generateSchema>
 

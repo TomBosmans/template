@@ -24,10 +24,11 @@ export default class KyselyDatabase extends Kysely<DB> {
       .selectFrom("pg_tables" as any)
       .select("tablename")
       .where("schemaname", "=", "public")
+      .where("tablename", "!=", "schema_migrations")
       .execute()
 
     for (const { tablename } of tables) {
-      await sql`TRUNCATE TABLE "${tablename}" RESTART IDENTITY CASCADE`.execute(this)
+      await sql`TRUNCATE TABLE ${sql.id(tablename)} RESTART IDENTITY CASCADE`.execute(this)
     }
   }
 }

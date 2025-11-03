@@ -7,7 +7,7 @@ export type Where<Entity extends Obj> = Partial<{
     | {
         $match?: Entity[Key]
         $eq?: Entity[Key] | null
-        $ne?: Entity | null
+        $ne?: Entity[Key] | null
         $lt?: Entity[Key] | null
         $lte?: Entity[Key] | null
         $gt?: Entity[Key] | null

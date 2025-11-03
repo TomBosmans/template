@@ -1,21 +1,19 @@
 import containerFactory from "./container.factory.ts"
-import NewUserDTO from "./users/dtos/newUser.dto.ts"
+import { NewUserDTO } from "./users/user.dtos.ts"
 
 const container = containerFactory()
 const config = container.resolve("config")
 const userRepository = container.resolve("userRepository")
 
-const newUserData = new NewUserDTO({
+const newUserData = NewUserDTO.parse({
   firstName: "Tom",
   lastName: "Bosmans",
   email: "tom.94.bosmans@gmail.com",
   password: "string"
 })
 
-newUserData.this
-
-console.log(newUserData.constructor.attributes)
-console.log(await userRepository.createOne(newUserData.parsed))
+console.log(NewUserDTO.attributes)
+console.log(await userRepository.createOne(newUserData))
 
 console.log(await userRepository.findMany())
 console.log(config)

@@ -77,7 +77,8 @@ export default class MemoryRepository<
   public update(params: UpdateQueryParams<Entity, UpdateEntityDTO>) {
     const updatedRecords: Entity[] = []
     this.storage = this.storage.map((record) => {
-      if (sift.default(params)(record)) {
+      // biome-ignore lint/suspicious/noExplicitAny: It is ok
+      if (sift.default(params.where as any)(record)) {
         const updatedRecord = { ...record, ...this.prepareUpdatedEntity(params.set) }
         this.validateEntity(updatedRecord, "update")
         updatedRecords.push(updatedRecord)
@@ -95,6 +96,10 @@ export default class MemoryRepository<
         this.storage.splice(index, 1)
       }
     }
+  }
+
+  public truncate() {
+    this.storage = []
   }
 
   protected prepareNewEntity(_newEntityDTO: NewEntityDTO): Entity {
