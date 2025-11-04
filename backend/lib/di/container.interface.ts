@@ -11,6 +11,6 @@ export default interface DIContainer<Registry extends DIRegistry = DIRegistry> {
     name: Name,
   ): ReturnType
   build<T>(registration: ClassType<T> | FunctionType<T> | T): T
-  createScope(): DIContainer
+  createScope(): DIContainer<Registry>
   dispose(): Promise<void>
 }

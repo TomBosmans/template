@@ -1,6 +1,7 @@
 import z from "zod"
 
-export const passwordSchema = z.string()
+export const passwordSchema = z
+  .string()
   .min(8)
   .max(64)
   .regex(/[A-Z]/, "Must contain at least one uppercase letter")

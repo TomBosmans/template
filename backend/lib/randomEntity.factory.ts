@@ -3,16 +3,11 @@ export default class RandomEntityFactory<BuildAttributes, CreateAttributes> {
     return { ...this.generate(), ...params }
   }
 
-  public buildMany(
-    times: number,
-    params?: Partial<BuildAttributes>,
-  ): BuildAttributes[] {
+  public buildMany(times: number, params?: Partial<BuildAttributes>): BuildAttributes[] {
     return [...(Array(times) as undefined[])].map(() => this.build(params))
   }
 
-  public async create(
-    params?: Partial<BuildAttributes>,
-  ): Promise<CreateAttributes> {
+  public async create(params?: Partial<BuildAttributes>): Promise<CreateAttributes> {
     return await this.save(this.build(params))
   }
 

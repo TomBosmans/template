@@ -33,7 +33,7 @@ export default class AwilixContainer implements DIContainer {
   ) {
     const asType = TypeMapper[type]
     // biome-ignore lint/suspicious/noExplicitAny: It is ok
-    this.awilix.register(name, asType(registration as any, { lifetime: "SINGLETON" }))
+    this.awilix.register(name, asType(registration as any, { lifetime: "SCOPED" }))
     return this
   }
 

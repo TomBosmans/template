@@ -47,7 +47,7 @@ export default function createMemoryRepository<Table extends keyof DB>(
     }
 
     /**
-      * WARNING: DO not override this method! use #validate instead
+     * WARNING: DO not override this method! use #validate instead
      */
     protected validateEntity(data: Entity, action: Action): void {
       this.validate(data, action)

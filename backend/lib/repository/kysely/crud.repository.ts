@@ -1,4 +1,4 @@
-import { sql, type Insertable, type Kysely, type Selectable, type Updateable } from "kysely"
+import { type Insertable, type Kysely, type Selectable, sql, type Updateable } from "kysely"
 import type { DB } from "#db/db.js"
 import RecordNotFoundException from "#lib/exceptions/recordNotFound.exception.ts"
 import ValidationException from "#lib/exceptions/validation.exception.ts"

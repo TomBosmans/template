@@ -20,19 +20,22 @@ export const NewUserDTO = createZodDTO(
       firstName: z.string(),
       lastName: z.string(),
       email: z.string().email(),
-      password: passwordSchema,
+      password: z.string(),
     }) satisfies OutputMatchingEntity<NewUser>,
 )
 
-export const EditUserDTO = createZodDTO((z) =>
-  z.object({
-    firstName: z.string().optional(),
-    lastName: z.string().optional(),
-    email: z.string().optional(),
-  }) satisfies OutputMatchingEntity<EditUser>,
+export const EditUserDTO = createZodDTO(
+  (z) =>
+    z.object({
+      firstName: z.string().optional(),
+      lastName: z.string().optional(),
+      email: z.string().optional(),
+    }) satisfies OutputMatchingEntity<EditUser>,
 )
 
-export const ChangePasswordDTO = createZodDTO((z) => z.object({
-  currentPassword: z.string(),
-  newPassword: passwordSchema,
-}))
+export const ChangePasswordDTO = createZodDTO((z) =>
+  z.object({
+    currentPassword: z.string(),
+    newPassword: passwordSchema,
+  }),
+)

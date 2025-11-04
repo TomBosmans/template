@@ -1,5 +1,5 @@
-import type { Insertable, Selectable, Updateable } from "kysely";
-import type { DB } from "#db/db.js";
+import type { Insertable, Selectable, Updateable } from "kysely"
+import type { DB } from "#db/db.js"
 
 export type User = Selectable<DB["users"]>
 export type NewUser = Insertable<DB["users"]>
