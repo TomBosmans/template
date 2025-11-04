@@ -1,4 +1,4 @@
-\restrict gou2p1NjJpkgkfo552GklJfZs0URvfUcdASSkAnAMYEYqa4b6TFiEeA9RNjdvU3
+\restrict lYRJi29nnDW2KitspwBaFqLmkAaaFamkc8rF5fZMq3ZVrbczJYdtN96kmNce5hV
 
 -- Dumped from database version 17.5
 -- Dumped by pg_dump version 17.6
@@ -29,6 +29,34 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: sessions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.sessions (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    hashed_token text NOT NULL,
+    user_id uuid NOT NULL,
+    expires_at timestamp with time zone NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: user_sessions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.user_sessions (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    hashed_token text NOT NULL,
+    user_id uuid NOT NULL,
+    expires_at timestamp with time zone NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -52,11 +80,41 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
+-- Name: sessions sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sessions
+    ADD CONSTRAINT sessions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: user_sessions user_sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_sessions
+    ADD CONSTRAINT user_sessions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: idx_sessions_hashed_token; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_sessions_hashed_token ON public.sessions USING btree (hashed_token);
+
+
+--
+-- Name: idx_user_sessions_hashed_token; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_user_sessions_hashed_token ON public.user_sessions USING btree (hashed_token);
 
 
 --
@@ -67,10 +125,26 @@ CREATE UNIQUE INDEX idx_users_email ON public.users USING btree (email);
 
 
 --
+-- Name: sessions sessions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sessions
+    ADD CONSTRAINT sessions_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: user_sessions user_sessions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_sessions
+    ADD CONSTRAINT user_sessions_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
-\unrestrict gou2p1NjJpkgkfo552GklJfZs0URvfUcdASSkAnAMYEYqa4b6TFiEeA9RNjdvU3
+\unrestrict lYRJi29nnDW2KitspwBaFqLmkAaaFamkc8rF5fZMq3ZVrbczJYdtN96kmNce5hV
 
 
 --
@@ -78,4 +152,5 @@ CREATE UNIQUE INDEX idx_users_email ON public.users USING btree (email);
 --
 
 INSERT INTO public.schema_migrations (version) VALUES
-    ('20251031135412');
+    ('20251031135412'),
+    ('20251104123158');

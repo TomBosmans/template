@@ -1,28 +1,14 @@
-import { randomUUID } from "node:crypto"
-import containerFactory from "./container.factory.ts"
-import { NewUserDTO } from "./users/user.dtos.ts"
+import { testContainerFactory } from "./container.factory.ts"
 
-const container = containerFactory()
+const container = testContainerFactory()
 const userRepository = container.resolve("userRepository")
-const db = container.resolve("db")
+const sessionRepository = container.resolve("sessionRepository")
 
-await userRepository.truncate()
-const newUserData = NewUserDTO.parse({
-  firstName: "Tom",
-  lastName: "Bosmans",
-  email: "tom.94.bosmans@gmail.com",
-  password: "string",
-})
+const sessionFactory = container.resolve("sessionFactory")
 
-await userRepository.findMany()
+await sessionFactory.create()
 
-const scopeA = container.createScope()
-scopeA.register({ id: randomUUID(), source: "scopeA" }, { name: "trace", type: "value" })
-await scopeA.resolve("userRepository").findMany()
+console.log(sessionFactory.build())
 
-const scopeB = container.createScope()
-scopeB.register({ id: randomUUID(), source: "scopeB" }, { name: "trace", type: "value" })
-await scopeB.resolve("userRepository").createOne(newUserData)
-
-console.log(await db.connections())
-await db.truncateAll()
+console.log(await userRepository.findMany())
+console.log(await sessionRepository.findMany())
