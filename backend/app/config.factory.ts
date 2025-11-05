@@ -1,9 +1,17 @@
 import { z } from "zod"
+import booleanSchema from "#lib/zod/boolean.schema.ts"
 
 export type Config = ReturnType<typeof configFactory>
 export default function configFactory({ env }: { env: Record<string, unknown> }) {
   return z
     .object({
+      FRONTEND_SECURE: booleanSchema,
+      FRONTEND_DOMAIN: z.string(),
+      FRONTEND_PORT: z.coerce.number(),
+      OPENAPI_INFO_VERSION: z.string(),
+      OPENAPI_INFO_TITLE: z.string(),
+      OPENAPI_INFO_DESCRIPTION: z.string(),
+
       POSTGRES_USER: z.string(),
       POSTGRES_PASSWORD: z.string().optional(),
       POSTGRES_PORT: z.coerce.number(),
@@ -13,6 +21,19 @@ export default function configFactory({ env }: { env: Record<string, unknown> })
       POSTGRES_POOL_MAX: z.coerce.number(),
     })
     .transform((config) => ({
+      frontend: {
+        domain: config.FRONTEND_DOMAIN,
+        port: config.FRONTEND_PORT,
+        secure: config.FRONTEND_SECURE,
+        url: `${config.FRONTEND_SECURE ? "https" : "http"}://${config.FRONTEND_DOMAIN}:${config.FRONTEND_PORT}`,
+      },
+      openapi: {
+        info: {
+          version: config.OPENAPI_INFO_VERSION,
+          title: config.OPENAPI_INFO_TITLE,
+          description: config.OPENAPI_INFO_DESCRIPTION,
+        },
+      },
       postgres: {
         port: config.POSTGRES_PORT,
         user: config.POSTGRES_USER,

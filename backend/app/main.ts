@@ -1,10 +1,8 @@
-import containerFactory from "./container.factory.ts"
+import ExpressServer from "./express.server.ts"
 
-const container = containerFactory()
-const userRepository = container.resolve("userRepository")
-const sessionRepository = container.resolve("sessionRepository")
+const httpServer = new ExpressServer()
 
-const users = await userRepository.findMany()
-const sessions = await sessionRepository.findMany()
-console.log(users)
-console.log(sessions)
+await httpServer.start()
+
+process.on("SIGINT", async () => await httpServer.stop())
+process.on("SIGTERM", async () => await httpServer.stop())

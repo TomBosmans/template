@@ -37,6 +37,7 @@ export type TestRegistry = {
   logger: Logger
 } & ModuleRegistries<"testRegistry">
 
+export type AppContainer = DIContainer<AppRegistry>
 export default function containerFactory(): DIContainer<AppRegistry> {
   const container = new AwilixContainer()
   container.register(process.env, { name: "env", type: "value" })

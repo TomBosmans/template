@@ -1,6 +1,6 @@
 import type { TestRegistry } from "#app/container.factory.ts"
 import RandomEntityFactory from "#lib/randomEntity.factory.ts"
-import { SessionDTO } from "./session.dtos.ts"
+import { NewSessionDTO } from "./session.dtos.ts"
 import type { NewSession, Session } from "./session.entities.ts"
 
 export default class SessionFactory extends RandomEntityFactory<NewSession, Session> {
@@ -14,7 +14,7 @@ export default class SessionFactory extends RandomEntityFactory<NewSession, Sess
   }
 
   protected generate(): NewSession {
-    return SessionDTO.generateRandom()
+    return NewSessionDTO.generateRandom()
   }
 
   protected async save(newSession: NewSession): Promise<Session> {
