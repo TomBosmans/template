@@ -1,14 +1,10 @@
-import { testContainerFactory } from "./container.factory.ts"
+import containerFactory from "./container.factory.ts"
 
-const container = testContainerFactory()
+const container = containerFactory()
 const userRepository = container.resolve("userRepository")
 const sessionRepository = container.resolve("sessionRepository")
 
-const sessionFactory = container.resolve("sessionFactory")
-
-await sessionFactory.create()
-
-console.log(sessionFactory.build())
-
-console.log(await userRepository.findMany())
-console.log(await sessionRepository.findMany())
+const users = await userRepository.findMany()
+const sessions = await sessionRepository.findMany()
+console.log(users)
+console.log(sessions)

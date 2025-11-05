@@ -10,7 +10,7 @@ import type {
 export default interface CrudRepository<
   Entity extends Obj,
   NewEntityDTO extends Obj,
-  UpdateEntityDTO extends Obj,
+  EditEntityDTO extends Obj,
 > {
   findMany(params?: SelectQueryParams<Entity> | undefined): Promise<Entity[]> | Entity[]
   findOne(params: SelectQueryParams<Entity>): Promise<Entity | null> | Entity | null
@@ -18,7 +18,7 @@ export default interface CrudRepository<
   count(params: CountQueryParams<Entity>): Promise<number> | number
   createOne(params: InsertQueryParams<NewEntityDTO>): Promise<Entity> | Entity
   createMany(params: Array<InsertQueryParams<NewEntityDTO>>): Promise<Array<Entity>> | Entity[]
-  update(params: UpdateQueryParams<Entity, UpdateEntityDTO>): Promise<Entity[]> | Entity[]
+  update(params: UpdateQueryParams<Entity, EditEntityDTO>): Promise<Entity[]> | Entity[]
   delete(params: DeleteQueryParams<Entity>): Promise<void> | void
   truncate(): Promise<void> | void
 }
