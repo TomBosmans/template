@@ -1,6 +1,6 @@
 import { OpenApiBuilder } from "openapi3-ts/oas31"
 import type HTTPRoute from "#lib/http/route.ts"
-import type { AppRegistry } from "./container.factory.ts"
+import type AppRegistry from "./app.registry.ts"
 
 const routeRegistry: Array<HTTPRoute> = []
 

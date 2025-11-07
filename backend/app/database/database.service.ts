@@ -1,14 +1,14 @@
 import { CamelCasePlugin, Kysely, PostgresDialect, sql } from "kysely"
 import pg from "pg"
+import type AppRegistry from "#app/app.registry.ts"
 import type { DB } from "#db/db.d.ts"
-import type { AppRegistry } from "./container.factory.ts"
 
-export default class KyselyDatabase extends Kysely<DB> {
+export default class DatabaseService extends Kysely<DB> {
   static dialect: PostgresDialect
 
   constructor({ config, logger }: AppRegistry) {
     // INFO: This makes sure we do not create new connection each time
-    KyselyDatabase.dialect ||= new PostgresDialect({
+    DatabaseService.dialect ||= new PostgresDialect({
       pool: new pg.Pool({
         database: config.postgres.database.name,
         host: config.postgres.host,
@@ -19,7 +19,7 @@ export default class KyselyDatabase extends Kysely<DB> {
     })
 
     super({
-      dialect: KyselyDatabase.dialect,
+      dialect: DatabaseService.dialect,
       plugins: [new CamelCasePlugin()],
       log(event) {
         if (event.level === "error") {

@@ -1,9 +1,12 @@
-import type Module from "#lib/module/interface.ts"
+import Module from "#lib/module/module.ts"
+import ConfigModule from "./config/config.module.ts"
+import DatabaseModule from "./database/database.module.ts"
+import LoggerModule from "./logger/logger.module.ts"
 import SessionModule from "./sessions/session.module.ts"
 import UserModule from "./users/user.module.ts"
 
-const AppModule = {
-  imports: [UserModule, SessionModule],
-} as const satisfies Module
+const AppModule = new Module({
+  imports: [ConfigModule, DatabaseModule, LoggerModule, UserModule, SessionModule],
+})
 
 export default AppModule

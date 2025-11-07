@@ -1,4 +1,4 @@
-import type { TestRegistry } from "#app/container.factory.ts"
+import type TestRegistry from "#app/test/test.registry.ts"
 import RandomEntityFactory from "#lib/randomEntity.factory.ts"
 import { NewSessionDTO } from "./session.dtos.ts"
 import type { NewSession, Session } from "./session.entities.ts"

@@ -6,7 +6,7 @@ import UnauthorizedException from "#lib/exceptions/unauthorized.exception.ts"
 import ValidationException from "#lib/exceptions/validation.exception.ts"
 import type HttpResponse from "#lib/http/response.type.ts"
 import HttpStatusCode from "#lib/http/statusCode.enum.ts"
-import type { AppRegistry } from "./container.factory.ts"
+import type AppRegistry from "./app.registry.ts"
 
 export default function exceptionHandlerFactory({ logger }: AppRegistry) {
   return (exception: Exception): HttpResponse => {

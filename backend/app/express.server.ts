@@ -4,23 +4,25 @@ import cors from "cors"
 import express, { type Express } from "express"
 import qs from "qs"
 import swaggerUi from "swagger-ui-express"
+import type DIContainer from "#lib/di/container.interface.ts"
 import HttpContentType from "#lib/http/contentType.enum.ts"
 import HttpMethodMapping from "#lib/http/methodMapping.util.ts"
 import type HTTPRoute from "#lib/http/route.ts"
 import type HTTPServer from "#lib/http/server.interface.ts"
 import HttpStatusCode from "#lib/http/statusCode.enum.ts"
-import type { AppContainer } from "./container.factory.ts"
+import AppModule from "./app.module.ts"
+import type AppRegistry from "./app.registry.ts"
 import containerFactory from "./container.factory.ts"
 import exceptionHandlerFactory from "./exceptionHandler.factory.ts"
 import openapiFactory from "./openapi.factory.ts"
 
 export default class ExpressServer implements HTTPServer {
   private readonly express: Express
-  private readonly container: AppContainer
+  private readonly container: DIContainer<AppRegistry>
   private server: Server | undefined = undefined
 
   constructor() {
-    this.container = containerFactory()
+    this.container = containerFactory(AppModule)
     this.express = express()
       .use(express.json())
       .use(cookieParser())

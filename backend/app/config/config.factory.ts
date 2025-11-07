@@ -1,8 +1,9 @@
 import { z } from "zod"
+import type AppRegistry from "#app/app.registry.ts"
 import booleanSchema from "#lib/zod/boolean.schema.ts"
 
 export type Config = ReturnType<typeof configFactory>
-export default function configFactory({ env }: { env: Record<string, unknown> }) {
+export default function configFactory({ env }: AppRegistry) {
   return z
     .object({
       FRONTEND_SECURE: booleanSchema,
