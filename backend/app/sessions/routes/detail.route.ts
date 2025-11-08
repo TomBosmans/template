@@ -16,7 +16,7 @@ const sessionDetailRoute = createAppRoute({
   async handler({ request, response, container }) {
     const id = request.params.id
     const sessionRepository = container.resolve("sessionRepository")
-    const session = await sessionRepository.findOneOrThrow({ where: { id }})
+    const session = await sessionRepository.findOneOrThrow({ where: { id } })
     response.body = session
     return response
   },

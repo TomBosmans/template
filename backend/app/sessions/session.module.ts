@@ -8,7 +8,7 @@ const SessionModule = new Module({
   registry: {
     sessionRepository: SessionDBRepository as Interface<SessionRepository>,
   },
-  routes: [sessionListRoute, sessionDetailRoute]
+  routes: [sessionListRoute, sessionDetailRoute],
 })
 
 export default SessionModule

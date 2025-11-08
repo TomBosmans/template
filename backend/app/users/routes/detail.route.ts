@@ -16,10 +16,10 @@ const userDetailRoute = createAppRoute({
   async handler({ request, response, container }) {
     const id = request.params.id
     const userRepository = container.resolve("userRepository")
-    const user = await userRepository.findOneOrThrow({ where: { id }})
+    const user = await userRepository.findOneOrThrow({ where: { id } })
     response.body = user
     return response
-  }
+  },
 }) as HTTPRoute
 
 export default userDetailRoute
