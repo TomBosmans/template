@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto"
 import type { Server } from "node:http"
 import cookieParser from "cookie-parser"
 import cors from "cors"
@@ -7,7 +8,6 @@ import swaggerUi from "swagger-ui-express"
 import type DIContainer from "#lib/di/container.interface.ts"
 import HttpContentType from "#lib/http/contentType.enum.ts"
 import HttpMethodMapping from "#lib/http/methodMapping.util.ts"
-import type HTTPRoute from "#lib/http/route.ts"
 import type HTTPServer from "#lib/http/server.interface.ts"
 import HttpStatusCode from "#lib/http/statusCode.enum.ts"
 import AppModule from "./app.module.ts"
@@ -18,7 +18,7 @@ import openapiFactory from "./openapi.factory.ts"
 
 export default class ExpressServer implements HTTPServer {
   private readonly express: Express
-  private readonly container: DIContainer<AppRegistry>
+  public readonly container: DIContainer<AppRegistry>
   private server: Server | undefined = undefined
 
   constructor() {
@@ -36,7 +36,7 @@ export default class ExpressServer implements HTTPServer {
   }
 
   public async start() {
-    this.registerRoutes([])
+    this.registerRoutes()
     this.setupSwagger()
     this.setupErrorHandling()
     this.listen()
@@ -51,11 +51,17 @@ export default class ExpressServer implements HTTPServer {
     this.server?.close(() => logger.info("stopped http server"))
   }
 
-  private registerRoutes(routes: HTTPRoute[]) {
-    for (const route of routes) {
+  private registerRoutes() {
+    for (const route of AppModule.routes) {
+      this.container
+        .resolve("logger")
+        .info("register route", { method: route.method, path: route.path })
       // example: app.get("/", async () => ...)
       this.express[HttpMethodMapping[route.method]](route.path, async (request, response, next) => {
         try {
+          const scope = this.container.createScope()
+          scope.register({ id: randomUUID(), source: "request" }, { name: "trace", type: "value" })
+
           const { statusCode, body, contentType, headers } = await route.handle({
             response: { statusCode: route.statusCode, contentType: "application/json" },
             request: {
@@ -67,7 +73,7 @@ export default class ExpressServer implements HTTPServer {
               getCookie: (name: string) => request.cookies[name] || null,
               getHeader: (name: string) => request.header(name) || null,
             },
-            container: this.container,
+            container: scope,
           })
 
           if (headers) {

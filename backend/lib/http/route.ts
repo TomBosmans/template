@@ -108,7 +108,6 @@ export default class HTTPRoute<
   public openapi() {
     const params = this.buildParametersForOpenapi() ?? []
     const query = this.buildQueryParametersForOpenapi() ?? []
-    console.log(this.path, { params, query })
     return {
       [this.method.toLowerCase()]: {
         parameters: [...params, ...query],

@@ -7,7 +7,7 @@ import ValidationException from "#lib/exceptions/validation.exception.ts"
 import type Obj from "#lib/types/obj.type.ts"
 import type DTO from "./interface.ts"
 
-type SchemaObject = ReturnType<typeof generateSchema>
+type SchemaObject = Record<string, unknown>
 
 function mapZodIssue(issue: z.ZodIssue) {
   return new Issue({
@@ -21,6 +21,7 @@ function mapZodIssue(issue: z.ZodIssue) {
 
 // biome-ignore lint/suspicious/noExplicitAny: We don't care about these 2 types
 export type OutputMatchingEntity<Entity extends Obj> = z.ZodSchema<Entity, any, any>
+export type ZodDTO = ReturnType<typeof createZodDTO>
 
 export default function createZodDTO<Schema extends z.ZodSchema>(
   func: (zod: typeof z) => Schema,
@@ -30,9 +31,10 @@ export default function createZodDTO<Schema extends z.ZodSchema>(
   return {
     schema,
     get openapi() {
-      return generateSchema(schema)
+      return generateSchema(schema) as Record<string, unknown>
     },
     get attributes() {
+      console.log(schema.constructor.name)
       return schema instanceof z.ZodObject ? Object.keys(schema.shape) : []
     },
 
