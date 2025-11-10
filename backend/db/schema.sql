@@ -1,4 +1,4 @@
-\restrict lYRJi29nnDW2KitspwBaFqLmkAaaFamkc8rF5fZMq3ZVrbczJYdtN96kmNce5hV
+\restrict DNalH3eKtmXTJ5Mc95nAtKaYc01C9YsG9WVyKBn0lAYfuugmZRSe74IG1Oiqshr
 
 -- Dumped from database version 17.5
 -- Dumped by pg_dump version 17.6
@@ -43,20 +43,6 @@ CREATE TABLE public.sessions (
 
 
 --
--- Name: user_sessions; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.user_sessions (
-    id uuid DEFAULT gen_random_uuid() NOT NULL,
-    hashed_token text NOT NULL,
-    user_id uuid NOT NULL,
-    expires_at timestamp with time zone NOT NULL,
-    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
-);
-
-
---
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -88,14 +74,6 @@ ALTER TABLE ONLY public.sessions
 
 
 --
--- Name: user_sessions user_sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.user_sessions
-    ADD CONSTRAINT user_sessions_pkey PRIMARY KEY (id);
-
-
---
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -108,13 +86,6 @@ ALTER TABLE ONLY public.users
 --
 
 CREATE INDEX idx_sessions_hashed_token ON public.sessions USING btree (hashed_token);
-
-
---
--- Name: idx_user_sessions_hashed_token; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX idx_user_sessions_hashed_token ON public.user_sessions USING btree (hashed_token);
 
 
 --
@@ -133,18 +104,10 @@ ALTER TABLE ONLY public.sessions
 
 
 --
--- Name: user_sessions user_sessions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.user_sessions
-    ADD CONSTRAINT user_sessions_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
-
-
---
 -- PostgreSQL database dump complete
 --
 
-\unrestrict lYRJi29nnDW2KitspwBaFqLmkAaaFamkc8rF5fZMq3ZVrbczJYdtN96kmNce5hV
+\unrestrict DNalH3eKtmXTJ5Mc95nAtKaYc01C9YsG9WVyKBn0lAYfuugmZRSe74IG1Oiqshr
 
 
 --

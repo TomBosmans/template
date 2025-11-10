@@ -9,13 +9,22 @@ export default class AuthService {
   private readonly hasher: AppRegistry["hasher"]
   private readonly tokenService: AppRegistry["tokenService"]
   private readonly config: AppRegistry["config"]
+  private readonly mailerService: AppRegistry["mailerService"]
 
-  constructor({ config, userRepository, sessionRepository, hasher, tokenService }: AppRegistry) {
+  constructor({
+    config,
+    userRepository,
+    sessionRepository,
+    hasher,
+    tokenService,
+    mailerService,
+  }: AppRegistry) {
     this.config = config
     this.userRepository = userRepository
     this.sessionRepository = sessionRepository
     this.hasher = hasher
     this.tokenService = tokenService
+    this.mailerService = mailerService
   }
 
   public async signUp(params: {
@@ -36,6 +45,8 @@ export default class AuthService {
       userId: user.id,
       expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
     })
+
+    await this.mailerService.sendEmail("welcome", user)
 
     return { user, session, token }
   }

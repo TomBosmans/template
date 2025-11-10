@@ -22,6 +22,15 @@ export default function configFactory({ env }: AppRegistry) {
       POSTGRES_DATABASE_NAME_TEST: z.string(),
       POSTGRES_HOST: z.string(),
       POSTGRES_POOL_MAX: z.coerce.number(),
+
+      MAILER_HOST: z.string(),
+      MAILER_PORT: z.coerce.number(),
+      MAILER_SECURE: booleanSchema,
+      MAILER_AUTH_USER: z.string(),
+      MAILER_AUTH_PASSWORD: z.string(),
+
+      EMAIL_NOREPLY: z.string().email(),
+      EMAIL_SUPPORT: z.string().email(),
     })
     .transform((config) => ({
       secure: config.SECURE,
@@ -51,6 +60,21 @@ export default function configFactory({ env }: AppRegistry) {
             process.env.NODE_ENV === "test"
               ? config.POSTGRES_DATABASE_NAME_TEST
               : config.POSTGRES_DATABASE_NAME_DEV,
+        },
+      },
+
+      emails: {
+        support: config.EMAIL_SUPPORT,
+        noreply: config.EMAIL_NOREPLY,
+      },
+
+      mailer: {
+        host: config.MAILER_HOST,
+        port: config.MAILER_PORT,
+        secure: config.MAILER_SECURE,
+        auth: {
+          user: config.MAILER_AUTH_USER,
+          pass: config.MAILER_AUTH_PASSWORD,
         },
       },
     }))

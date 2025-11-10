@@ -30,17 +30,7 @@ export interface Users {
   updatedAt: Generated<Timestamp>
 }
 
-export interface UserSessions {
-  createdAt: Generated<Timestamp>
-  expiresAt: Timestamp
-  hashedToken: string
-  id: Generated<string>
-  updatedAt: Generated<Timestamp>
-  userId: string
-}
-
 export interface DB {
   sessions: Sessions
   users: Users
-  userSessions: UserSessions
 }

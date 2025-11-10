@@ -14,6 +14,20 @@ services:
       - ${BACKEND_PORT}:3000
     volumes:
       - ./backend:/backend
+      - ./emails:/backend/node_modules/emails
+
+  emails:
+    container_name: ${APP_NAME}_emails
+    build:
+      context: emails
+      dockerfile: Dockerfile
+    stdin_open: true
+    env_file:
+      - .env
+    ports:
+      - ${EMAILS_PORT}:3000
+    volumes:
+      - "./emails:/emails"
 
   postgres:
     container_name: ${APP_NAME}_postgres
@@ -24,6 +38,13 @@ services:
       - ${POSTGRES_PORT}:5432
     volumes:
       - postgres:/var/lib/postgresql/data
+
+  mailpit:
+    container_name: ${APP_NAME}_mailpit
+    image: axllent/mailpit
+    ports:
+      - ${MAILPIT_PORT}:8025
+      - ${MAILPIT_SMTP_PORT}:1025
 
 volumes:
   postgres:

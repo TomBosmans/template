@@ -34,7 +34,6 @@ export default function createZodDTO<Schema extends z.ZodSchema>(
       return generateSchema(schema) as Record<string, unknown>
     },
     get attributes() {
-      console.log(schema.constructor.name)
       return schema instanceof z.ZodObject ? Object.keys(schema.shape) : []
     },
 
