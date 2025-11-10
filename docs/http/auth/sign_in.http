@@ -1,0 +1,7 @@
+POST {{BACKEND_URL}}/sign_in
+Content-Type: application/json
+
+{
+  "email": "john.doe@example.com",
+  "password": "string"
+}

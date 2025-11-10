@@ -1,3 +1,4 @@
+import authGuard from "#app/auth/auth.guard.ts"
 import createAppRoute from "#app/utils/createAppRoute.ts"
 import listDTO from "#app/utils/list.dto.ts"
 import listQueryDTO from "#app/utils/listQuery.dto.ts"
@@ -10,6 +11,7 @@ const userListRoute = createAppRoute({
   statusCode: 200,
   description: "Returns a list of all users.",
   tags: ["users"],
+  middleware: [authGuard],
   schemas: {
     query: listQueryDTO(UserDTO),
     response: listDTO(UserDTO),

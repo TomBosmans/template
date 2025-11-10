@@ -1,3 +1,4 @@
+import authGuard from "#app/auth/auth.guard.ts"
 import createAppRoute from "#app/utils/createAppRoute.ts"
 import DetailParamsDTO from "#app/utils/detailParams.dto.ts"
 import type HTTPRoute from "#lib/http/route.ts"
@@ -9,6 +10,7 @@ const userDetailRoute = createAppRoute({
   statusCode: 200,
   description: "Returns the user matching the given id",
   tags: ["users"],
+  middleware: [authGuard],
   schemas: {
     params: DetailParamsDTO,
     response: UserDTO,

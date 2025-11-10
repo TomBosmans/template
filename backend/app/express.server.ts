@@ -39,6 +39,7 @@ export default class ExpressServer implements HTTPServer {
     this.registerRoutes()
     this.setupSwagger()
     this.setupErrorHandling()
+    this.setupPathNotFound()
     this.listen()
   }
 
@@ -116,6 +117,15 @@ export default class ExpressServer implements HTTPServer {
         response.contentType(HttpContentType.JSON).status(statusCode).header(header).send(body)
       },
     )
+  }
+
+  private setupPathNotFound() {
+    this.express.use((req, res) => {
+      res.status(404).json({
+        message: "The requested resource was not found.",
+        path: req.originalUrl,
+      })
+    })
   }
 
   private listen() {

@@ -6,6 +6,8 @@ export type Config = ReturnType<typeof configFactory>
 export default function configFactory({ env }: AppRegistry) {
   return z
     .object({
+      SECURE: booleanSchema,
+
       FRONTEND_SECURE: booleanSchema,
       FRONTEND_DOMAIN: z.string(),
       FRONTEND_PORT: z.coerce.number(),
@@ -22,6 +24,7 @@ export default function configFactory({ env }: AppRegistry) {
       POSTGRES_POOL_MAX: z.coerce.number(),
     })
     .transform((config) => ({
+      secure: config.SECURE,
       frontend: {
         domain: config.FRONTEND_DOMAIN,
         port: config.FRONTEND_PORT,
