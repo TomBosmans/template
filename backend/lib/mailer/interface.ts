@@ -1,4 +1,4 @@
-export default interface MailerService {
+export default interface Mailer {
   sendMail(params: {
     from: string
     to: string

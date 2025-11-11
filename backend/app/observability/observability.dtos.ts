@@ -15,6 +15,6 @@ export const HealthDTO = createZodDTO((z) =>
 export const ReadyDTO = createZodDTO((z) =>
   z.object({
     status: z.enum(["ready", "degraded"]),
-    services: z.object({ postgres: z.boolean() })
+    services: z.object({ postgres: z.boolean() }),
   }),
 )

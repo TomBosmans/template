@@ -1,27 +1,35 @@
 import type DIRegistry from "#lib/di/registry.type.ts"
 import type HTTPRoute from "#lib/http/route.ts"
+import type { JobConstructor } from "#lib/job/interface.ts"
 import type UnionToIntersection from "#lib/types/unionToIntersection.type.ts"
+
+type JobRegistryTest = Record<string, JobConstructor>
 
 export default class Module<
   // biome-ignore lint/complexity/noBannedTypes: autocompletion stops working otherwise.
   Registry extends DIRegistry = {},
   // biome-ignore lint/suspicious/noExplicitAny: It is ok here.
   Imports extends Module<any, any>[] = [],
+  // biome-ignore lint/complexity/noBannedTypes: autocompletion stops working otherwise.
+  JobRegistry extends JobRegistryTest = {},
 > {
   private readonly _imports: Imports
   private readonly _registry: Registry
   private readonly _routes: HTTPRoute[]
+  private readonly _jobs: JobRegistry
 
   constructor(
     params: {
       imports?: Imports
       registry?: Registry
       routes?: HTTPRoute[]
+      jobs?: JobRegistry
     } = {},
   ) {
     this._imports = params.imports || ([] as unknown as Imports)
     this._registry = params.registry || ({} as Registry)
     this._routes = params.routes || []
+    this._jobs = params.jobs || ({} as JobRegistry)
   }
 
   public get imports(): Imports {
@@ -66,5 +74,18 @@ export default class Module<
     }
 
     return registry as Registry & UnionToIntersection<Imports[number]["registry"]>
+  }
+
+  public get jobs(): JobRegistry & UnionToIntersection<Imports[number]["jobs"]> {
+    const mergedJobs: JobRegistryTest = { ...this._jobs }
+
+    for (const mod of this.imports) {
+      for (const [key, job] of Object.entries(mod._jobs)) {
+        mergedJobs[key] = job as JobConstructor
+      }
+    }
+
+    // Cast to the desired generic intersection type
+    return mergedJobs as JobRegistry & UnionToIntersection<Imports[number]["jobs"]>
   }
 }

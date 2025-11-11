@@ -37,6 +37,7 @@ export default class ExpressServer implements HTTPServer {
 
   public async start() {
     this.registerRoutes()
+    await this.registerJobs()
     this.setupSwagger()
     this.setupErrorHandling()
     this.setupPathNotFound()
@@ -47,6 +48,8 @@ export default class ExpressServer implements HTTPServer {
     const logger = this.container.resolve("logger")
     await this.container.resolve("db").destroy()
     logger.info("close db connections")
+    await this.container.resolve("jobService").stop()
+    logger.info("stopped the job service")
     await this.container.dispose()
     logger.info("disposed DI container")
     this.server?.close(() => logger.info("stopped http server"))
@@ -133,5 +136,17 @@ export default class ExpressServer implements HTTPServer {
     this.server = this.express.listen(3000, () => {
       logger.info(`Express is listening on port 3000`)
     })
+  }
+
+  private async registerJobs() {
+    const jobService = this.container.resolve("jobService")
+    await jobService.start()
+
+    for (const [key, job] of Object.entries(AppModule.jobs)) {
+      // biome-ignore lint/suspicious/noExplicitAny: This is ok.
+      await jobService.register(key as any, this.container.build(job), {
+        concurrency: 5,
+      })
+    }
   }
 }

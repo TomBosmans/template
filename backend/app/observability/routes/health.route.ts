@@ -10,7 +10,7 @@ const healthRoute = createAppRoute({
   tags: ["observability"],
   middleware: [authGuard],
   schemas: {
-    response: HealthDTO
+    response: HealthDTO,
   },
   async handler({ response, container }) {
     const observabilityService = container.resolve("observabilityService")

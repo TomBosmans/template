@@ -25,7 +25,7 @@ export default class ObservabilitySerice {
   public async postgresReady() {
     try {
       const {
-       rows: [{ ready }] 
+        rows: [{ ready }],
       } = await sql<{ ready: true }>`select true as ready`.execute(this.db)
       return ready
     } catch {
