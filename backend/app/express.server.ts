@@ -38,6 +38,7 @@ export default class ExpressServer implements HTTPServer {
   public async start() {
     this.registerRoutes()
     await this.registerJobs()
+    await this.setupStorage()
     this.setupSwagger()
     this.setupErrorHandling()
     this.setupPathNotFound()
@@ -129,6 +130,13 @@ export default class ExpressServer implements HTTPServer {
         path: req.originalUrl,
       })
     })
+  }
+
+  private async setupStorage() {
+    const storage = this.container.resolve("storage")
+    await storage.createBucket({ soft: true })
+    // TODO: this should probably happen on migrations etc and not on boot
+    await storage.updatePolicy()
   }
 
   private listen() {

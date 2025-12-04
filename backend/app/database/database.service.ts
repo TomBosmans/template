@@ -7,7 +7,6 @@ export default class DatabaseService extends Kysely<DB> {
   static dialect: PostgresDialect
 
   constructor({ config, logger }: AppRegistry) {
-    // INFO: This makes sure we do not create new connection each time
     DatabaseService.dialect ||= new PostgresDialect({
       pool: new pg.Pool({
         database: config.postgres.database.name,

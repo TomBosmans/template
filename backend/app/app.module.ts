@@ -8,6 +8,7 @@ import ObservabilityModule from "./observability/observability.module.ts"
 import ProfileModule from "./profiles/profile.module.ts"
 import RoleModule from "./roles/role.module.ts"
 import SessionModule from "./sessions/session.module.ts"
+import StorageModule from "./storage/storage.module.ts"
 import UserModule from "./users/user.module.ts"
 
 const AppModule = new Module({
@@ -22,6 +23,7 @@ const AppModule = new Module({
     AuthModule,
     RoleModule,
     ProfileModule,
+    StorageModule,
   ],
 })
 

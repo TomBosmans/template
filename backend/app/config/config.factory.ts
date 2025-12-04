@@ -1,5 +1,7 @@
 import { z } from "zod"
 import type AppRegistry from "#app/app.registry.ts"
+import type { NodeMailerOptions } from "#lib/mailer/node.mailer.ts"
+import type { S3StorageOptions } from "#lib/storage/s3.storage.ts"
 import booleanSchema from "#lib/zod/boolean.schema.ts"
 
 export type Config = ReturnType<typeof configFactory>
@@ -31,6 +33,14 @@ export default function configFactory({ env }: AppRegistry) {
 
       EMAIL_NOREPLY: z.string().email(),
       EMAIL_SUPPORT: z.string().email(),
+
+      S3_REGION: z.string().default("us-east-1"),
+      S3_SSL: booleanSchema,
+      S3_DOMAIN: z.string(),
+      S3_ACCESS_KEY_ID: z.string(),
+      S3_SECRET_ACCESS_KEY: z.string(),
+      S3_BUCKET: z.string(),
+      S3_PORT: z.coerce.number(),
     })
     .transform((config) => ({
       secure: config.SECURE,
@@ -76,7 +86,18 @@ export default function configFactory({ env }: AppRegistry) {
           user: config.MAILER_AUTH_USER,
           pass: config.MAILER_AUTH_PASSWORD,
         },
-      },
+      } satisfies NodeMailerOptions["config"]["mailer"],
+
+      s3: {
+        bucket: config.S3_BUCKET,
+        region: config.S3_REGION,
+        endpoint: `http${config.S3_SSL ? "s" : ""}://${config.S3_DOMAIN}:${config.S3_PORT}`,
+        forcePathStyle: true,
+        credentials: {
+          accessKeyId: config.S3_ACCESS_KEY_ID,
+          secretAccessKey: config.S3_SECRET_ACCESS_KEY,
+        },
+      } satisfies S3StorageOptions["config"]["s3"],
     }))
     .parse(env)
 }
