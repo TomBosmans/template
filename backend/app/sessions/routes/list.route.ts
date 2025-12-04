@@ -1,3 +1,5 @@
+import { can } from "#app/app.ability.ts"
+import authGuard from "#app/auth/auth.guard.ts"
 import createAppRoute from "#app/utils/createAppRoute.ts"
 import listDTO from "#app/utils/list.dto.ts"
 import listQueryDTO from "#app/utils/listQuery.dto.ts"
@@ -10,6 +12,7 @@ const sessionListRoute = createAppRoute({
   statusCode: 200,
   description: "Returns list of all sessions",
   tags: ["sessions"],
+  middleware: [authGuard, can("read", "Session")],
   schemas: {
     query: listQueryDTO(SessionDTO),
     response: listDTO(SessionDTO),
@@ -17,12 +20,15 @@ const sessionListRoute = createAppRoute({
   async handler({ request, response, container }) {
     const limit = request.query.limit
     const offset = request.query.offset
-    const where = request.query.where
-    const orderBy = request.query.orderBy
     const sessionRepository = container.resolve("sessionRepository")
-    const data = await sessionRepository.findMany({ where, orderBy, limit, offset })
-    const total = await sessionRepository.count({ where })
-    response.body = { data, total }
+    const ability = container.resolve("ability")
+    const { data, total } = await sessionRepository.findManyWithTotal({
+      where: { ...request.query.where, $and: [ability.queryFor("read", "Session")] },
+      orderBy: request.query.orderBy,
+      limit,
+      offset,
+    })
+    response.body = { data, total, limit, offset }
     return response
   },
 }) as HTTPRoute

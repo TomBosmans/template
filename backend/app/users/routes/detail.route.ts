@@ -1,3 +1,4 @@
+import { can } from "#app/app.ability.ts"
 import authGuard from "#app/auth/auth.guard.ts"
 import createAppRoute from "#app/utils/createAppRoute.ts"
 import DetailParamsDTO from "#app/utils/detailParams.dto.ts"
@@ -10,7 +11,7 @@ const userDetailRoute = createAppRoute({
   statusCode: 200,
   description: "Returns the user matching the given id",
   tags: ["users"],
-  middleware: [authGuard],
+  middleware: [authGuard, can("read", "User")],
   schemas: {
     params: DetailParamsDTO,
     response: UserDTO,
@@ -18,7 +19,10 @@ const userDetailRoute = createAppRoute({
   async handler({ request, response, container }) {
     const id = request.params.id
     const userRepository = container.resolve("userRepository")
-    const user = await userRepository.findOneOrThrow({ where: { id } })
+    const ability = container.resolve("ability")
+    const user = await userRepository.findOneOrThrow({
+      where: { id, $and: [ability.queryFor("read", "User")] },
+    })
     response.body = user
     return response
   },

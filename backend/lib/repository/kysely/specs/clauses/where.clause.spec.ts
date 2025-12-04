@@ -21,6 +21,14 @@ describe("whereClause", () => {
     assert.deepStrictEqual(result.parameters, [uuid])
   })
 
+  it("handles undefined correctly", () => {
+    let query = db.selectFrom(sql`users`.as("users")).selectAll()
+    query = whereClause({ id: undefined })(query)
+    const result = query.compile()
+    assert.deepStrictEqual(result.parameters, [])
+    assert.strictEqual(result.sql, 'select * from users as "users"')
+  })
+
   it("can have multiple conditions", () => {
     let query = db.selectFrom(sql`users`.as("users")).selectAll()
     query = whereClause({ age: { $gte: 18, $lte: 65 }, name: { $match: "oh" } } as any)(query)
@@ -172,6 +180,26 @@ describe("whereClause", () => {
       const result = query.compile()
       assert.strictEqual(result.sql, 'select * from users as "users" where "age" <= $1')
       assert.deepStrictEqual(result.parameters, [65])
+    })
+  })
+
+  describe("nesting $and, $or, $nor", () => {
+    it("works", () => {
+      const uuid = "f08b6ae7-175d-482b-a1cc-bbccba54c1d8"
+      let query = db.selectFrom(sql`users`.as("users")).selectAll()
+      query = whereClause({
+        name: "John",
+        $and: [
+          { id: { $eq: uuid } },
+          { $or: [{ age: { $gt: 18 } }, { $nor: [{ age: { $lt: 65 } }, { age: { $lt: 45 } }] }] },
+        ],
+      } as any)(query)
+      const result = query.compile()
+      assert.strictEqual(
+        result.sql,
+        'select * from users as "users" where "name" = $1 and ("id" = $2 and ("age" > $3 or not ("age" < $4 or "age" < $5)))',
+      )
+      assert.deepStrictEqual(result.parameters, ["John", uuid, 18, 65, 45])
     })
   })
 })

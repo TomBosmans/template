@@ -54,6 +54,8 @@ export default function exceptionHandlerFactory({ logger }: AppRegistry) {
       }
     }
 
+    // TODO: some errors aren't logged correctly so for now I'm adding the console.error here
+    console.error(exception)
     logger.error("Error", exception)
     return {
       statusCode: HttpStatusCode.INTERNAL_SERVER_ERROR,

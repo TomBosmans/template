@@ -6,6 +6,7 @@ import ValidationException from "#lib/exceptions/validation.exception.ts"
 export default class AuthService {
   private readonly userRepository: AppRegistry["userRepository"]
   private readonly sessionRepository: AppRegistry["sessionRepository"]
+  private readonly profileRepository: AppRegistry["profileRepository"]
   private readonly hasher: AppRegistry["hasher"]
   private readonly tokenService: AppRegistry["tokenService"]
   private readonly config: AppRegistry["config"]
@@ -15,6 +16,7 @@ export default class AuthService {
     config,
     userRepository,
     sessionRepository,
+    profileRepository,
     hasher,
     tokenService,
     mailerService,
@@ -22,6 +24,7 @@ export default class AuthService {
     this.config = config
     this.userRepository = userRepository
     this.sessionRepository = sessionRepository
+    this.profileRepository = profileRepository
     this.hasher = hasher
     this.tokenService = tokenService
     this.mailerService = mailerService
@@ -45,10 +48,13 @@ export default class AuthService {
       userId: user.id,
       expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
     })
+    const profile = await this.profileRepository.findOneOrThrow({
+      where: { hashedToken: session.hashedToken },
+    })
 
     await this.mailerService.sendEmail("welcome", user)
 
-    return { user, session, token }
+    return { user, session, token, profile }
   }
 
   public async signIn(params: { email: string; password: string }) {
@@ -70,7 +76,10 @@ export default class AuthService {
       expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
     })
 
-    return { user, session, token }
+    const profile = await this.profileRepository.findOneOrThrow({
+      where: { hashedToken: session.hashedToken },
+    })
+    return { user, session, token, profile }
   }
 
   public async signOut(token: string) {
@@ -81,23 +90,22 @@ export default class AuthService {
 
   public async authenticate(token: string) {
     const hashedToken = this.tokenService.hashToken(token)
-    const session = await this.sessionRepository.findOne({ where: { hashedToken } })
-    if (session === null) throw new UnauthenticatedException()
+    const profile = await this.profileRepository.findOne({ where: { hashedToken } })
+    if (profile === null) throw new UnauthenticatedException()
 
-    if (Date.now() >= session.expiresAt.getTime()) {
+    if (Date.now() >= profile.currentSession.expiresAt.getTime()) {
       await this.sessionRepository.delete({ where: { id: hashedToken } })
       throw new UnauthenticatedException()
     }
-    if (Date.now() >= session.expiresAt.getTime() - 1000 * 60 * 60 * 24 * 15) {
+    if (Date.now() >= profile.currentSession.expiresAt.getTime() - 1000 * 60 * 60 * 24 * 15) {
       const [updatedSession] = await this.sessionRepository.update({
         where: { id: hashedToken },
         set: { expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30) },
       })
-
-      return updatedSession
+      return { ...profile, currentSession: updatedSession }
     }
 
-    return session
+    return profile
   }
 
   public createSessionCookie({ token, expiresAt }: { token: string; expiresAt: Date }) {

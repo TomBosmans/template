@@ -6,11 +6,13 @@ import type { NewSession, Session } from "./session.entities.ts"
 export default class SessionFactory extends RandomEntityFactory<NewSession, Session> {
   private readonly sessionRepository: TestRegistry["sessionRepository"]
   private readonly userFactory: TestRegistry["userFactory"]
+  private readonly userRepository: TestRegistry["userRepository"]
 
-  constructor({ sessionRepository, userFactory }: TestRegistry) {
+  constructor({ sessionRepository, userFactory, userRepository }: TestRegistry) {
     super()
     this.sessionRepository = sessionRepository
     this.userFactory = userFactory
+    this.userRepository = userRepository
   }
 
   protected generate(): NewSession {
@@ -18,7 +20,8 @@ export default class SessionFactory extends RandomEntityFactory<NewSession, Sess
   }
 
   protected async save(newSession: NewSession): Promise<Session> {
-    await this.userFactory.create({ id: newSession.userId })
+    const user = await this.userRepository.findOne({ where: { id: newSession.userId } })
+    if (!user) await this.userFactory.create({ id: newSession.userId })
     return await this.sessionRepository.createOne(newSession)
   }
 }

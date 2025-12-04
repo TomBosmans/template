@@ -9,7 +9,96 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   ? ColumnType<S, I | undefined, U>
   : ColumnType<T, T | undefined, T>
 
+export type Json = JsonValue
+
+export type JsonArray = JsonValue[]
+
+export type JsonObject = {
+  [x: string]: JsonValue | undefined
+}
+
+export type JsonPrimitive = boolean | number | string | null
+
+export type JsonValue = JsonArray | JsonObject | JsonPrimitive
+
+export type PgbossJobState = "active" | "cancelled" | "completed" | "created" | "failed" | "retry"
+
 export type Timestamp = ColumnType<Date, Date | string, Date | string>
+
+export type UserRole = "admin" | "user"
+
+export interface PgbossJob {
+  completedOn: Timestamp | null
+  createdOn: Generated<Timestamp>
+  data: Json | null
+  deadLetter: string | null
+  deletionSeconds: Generated<number>
+  expireSeconds: Generated<number>
+  id: Generated<string>
+  keepUntil: Generated<Timestamp>
+  name: string
+  output: Json | null
+  policy: string | null
+  priority: Generated<number>
+  retryBackoff: Generated<boolean>
+  retryCount: Generated<number>
+  retryDelay: Generated<number>
+  retryDelayMax: number | null
+  retryLimit: Generated<number>
+  singletonKey: string | null
+  singletonOn: Timestamp | null
+  startAfter: Generated<Timestamp>
+  startedOn: Timestamp | null
+  state: Generated<PgbossJobState>
+}
+
+export interface PgbossQueue {
+  activeCount: Generated<number>
+  createdOn: Generated<Timestamp>
+  deadLetter: string | null
+  deferredCount: Generated<number>
+  deletionSeconds: number
+  expireSeconds: number
+  maintainOn: Timestamp | null
+  monitorOn: Timestamp | null
+  name: string
+  partition: boolean
+  policy: string
+  queuedCount: Generated<number>
+  retentionSeconds: number
+  retryBackoff: boolean
+  retryDelay: number
+  retryDelayMax: number | null
+  retryLimit: number
+  singletonsActive: string[] | null
+  tableName: string
+  totalCount: Generated<number>
+  updatedOn: Generated<Timestamp>
+  warningQueued: Generated<number>
+}
+
+export interface PgbossSchedule {
+  createdOn: Generated<Timestamp>
+  cron: string
+  data: Json | null
+  key: Generated<string>
+  name: string
+  options: Json | null
+  timezone: string | null
+  updatedOn: Generated<Timestamp>
+}
+
+export interface PgbossSubscription {
+  createdOn: Generated<Timestamp>
+  event: string
+  name: string
+  updatedOn: Generated<Timestamp>
+}
+
+export interface PgbossVersion {
+  cronOn: Timestamp | null
+  version: number
+}
 
 export interface Sessions {
   createdAt: Generated<Timestamp>
@@ -27,10 +116,16 @@ export interface Users {
   id: Generated<string>
   lastName: string
   password: string
+  role: Generated<UserRole>
   updatedAt: Generated<Timestamp>
 }
 
 export interface DB {
+  "pgboss.job": PgbossJob
+  "pgboss.queue": PgbossQueue
+  "pgboss.schedule": PgbossSchedule
+  "pgboss.subscription": PgbossSubscription
+  "pgboss.version": PgbossVersion
   sessions: Sessions
   users: Users
 }

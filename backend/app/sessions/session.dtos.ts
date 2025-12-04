@@ -16,7 +16,7 @@ export const NewSessionDTO = createZodDTO(
   (z) =>
     z.object({
       hashedToken: z.string(),
-      userId: z.string(),
+      userId: z.string().uuid(),
       expiresAt: z.coerce.date(),
     }) satisfies OutputMatchingEntity<NewSession>,
 )

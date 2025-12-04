@@ -1,6 +1,6 @@
 import type { ComparisonOperatorExpression } from "kysely"
 
-type Operator = "$eq" | "$ne" | "$lt" | "$lte" | "$gt" | "$gte" | "$in" | "$nin" | "$match"
+export type Operator = "$eq" | "$ne" | "$lt" | "$lte" | "$gt" | "$gte" | "$in" | "$nin" | "$match"
 
 export function mapOperatorExpression<Value extends string | number | Date | boolean | null>(
   operator: Operator,

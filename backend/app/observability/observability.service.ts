@@ -36,7 +36,6 @@ export default class ObservabilitySerice {
   public async postgresStatus(): Promise<{ ok: true; connections: number } | { ok: false }> {
     try {
       const connections = await this.db.connections()
-      console.log(connections)
       return { ok: true, connections: connections.length }
     } catch {
       return { ok: false }

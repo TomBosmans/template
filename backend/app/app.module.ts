@@ -5,6 +5,8 @@ import DatabaseModule from "./database/database.module.ts"
 import JobsModule from "./jobs/jobs.module.ts"
 import MailerModule from "./mailer/mailer.module.ts"
 import ObservabilityModule from "./observability/observability.module.ts"
+import ProfileModule from "./profiles/profile.module.ts"
+import RoleModule from "./roles/role.module.ts"
 import SessionModule from "./sessions/session.module.ts"
 import UserModule from "./users/user.module.ts"
 
@@ -18,6 +20,8 @@ const AppModule = new Module({
     UserModule,
     SessionModule,
     AuthModule,
+    RoleModule,
+    ProfileModule,
   ],
 })
 

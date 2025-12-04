@@ -1,3 +1,4 @@
+import AppAbility from "#app/app.ability.ts"
 import type RequestRegistry from "#app/request.registry.ts"
 import UnauthenticatedException from "#lib/exceptions/unauthenticated.exception.ts"
 import UnauthorizedException from "#lib/exceptions/unauthorized.exception.ts"
@@ -12,7 +13,6 @@ import type Middleware from "#lib/http/middleware.type.ts"
  *   request's `Origin` header matches the trusted domain.
  */
 function csrfProtection(method: string, originHeader: string | null, trusedOrigin: string): void {
-  console.log(originHeader)
   if (method === "GET" || method === "HEAD") return
   if (originHeader === trusedOrigin) return
   throw new UnauthorizedException("Invalid origin")
@@ -38,16 +38,19 @@ const authGuard: Middleware<RequestRegistry> = async ({ request, response, conta
   if (token === null) throw new UnauthenticatedException()
 
   const authService = container.resolve("authService")
-  const session = await authService.authenticate(token)
-  if (session === null) throw new UnauthenticatedException()
+  const profile = await authService.authenticate(token)
 
-  const sessionCookie = authService.createSessionCookie({ token, expiresAt: session.expiresAt })
+  const sessionCookie = authService.createSessionCookie({
+    token,
+    expiresAt: new Date(profile.currentSession.expiresAt),
+  })
   response.headers = {
     ...response.headers,
     ...sessionCookie,
   }
 
-  container.register(session, { name: "session", type: "value" })
+  container.register(profile, { name: "profile", type: "value" })
+  container.register(new AppAbility(profile), { name: "ability", type: "value" })
 
   return response
 }

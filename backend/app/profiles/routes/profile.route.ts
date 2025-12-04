@@ -1,29 +1,21 @@
-import { UserDTO } from "#app/users/user.dtos.ts"
+import authGuard from "#app/auth/auth.guard.ts"
 import createAppRoute from "#app/utils/createAppRoute.ts"
 import type HTTPRoute from "#lib/http/route.ts"
-import authGuard from "../auth.guard.ts"
+import ProfileDTO from "../profile.dto.ts"
 
 const profileRoute = createAppRoute({
-  tags: ["auth"],
+  tags: ["profiles"],
   description: "Returns the profile of the signed in user",
   method: "GET",
   path: "/profile",
   statusCode: 200,
   middleware: [authGuard],
   schemas: {
-    response: UserDTO,
+    response: ProfileDTO,
   },
   async handler({ response, container }) {
-    const userRepository = container.resolve("userRepository")
-    const session = container.resolve("session")
-
-    const user = await userRepository.findOneOrThrow({
-      where: {
-        id: session?.userId,
-      },
-    })
-
-    response.body = user
+    const profile = container.resolve("profile")
+    response.body = profile
     return response
   },
 }) as HTTPRoute

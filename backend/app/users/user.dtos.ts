@@ -1,17 +1,18 @@
 import createZodDTO, { type OutputMatchingEntity } from "#lib/dto/zod.dto.ts"
+import dateStringSchema from "#lib/zod/dateString.schema.ts"
 import { passwordSchema } from "#lib/zod/password.schema.ts"
-import type { EditUser, NewUser, User } from "./user.entities.ts"
+import type { EditUser, NewUser } from "./user.entities.ts"
 
-export const UserDTO = createZodDTO(
-  (z) =>
-    z.object({
-      id: z.string().uuid(),
-      firstName: z.string(),
-      lastName: z.string(),
-      email: z.string().email(),
-      createdAt: z.coerce.date(),
-      updatedAt: z.coerce.date(),
-    }) satisfies OutputMatchingEntity<Omit<User, "password">>,
+export const UserDTO = createZodDTO((z) =>
+  z.object({
+    id: z.string().uuid(),
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string().email(),
+    role: z.enum(["user", "admin"]),
+    createdAt: dateStringSchema,
+    updatedAt: dateStringSchema,
+  }),
 )
 
 export const NewUserDTO = createZodDTO(

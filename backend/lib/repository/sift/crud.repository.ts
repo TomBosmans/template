@@ -40,6 +40,13 @@ export default class MemoryRepository<
     return result
   }
 
+  public findManyWithTotal(params: SelectQueryParams<Entity> = {}) {
+    const { where, limit, offset, orderBy } = params
+    const data = this.findMany({ where, limit, offset, orderBy })
+    const total = this.count({ where })
+    return { data, total }
+  }
+
   public findOne(params: SelectQueryParams<Entity>) {
     return this.findMany(params)[0] || null
   }

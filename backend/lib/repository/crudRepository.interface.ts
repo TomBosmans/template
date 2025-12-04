@@ -13,6 +13,9 @@ export default interface CrudRepository<
   EditEntityDTO extends Obj,
 > {
   findMany(params?: SelectQueryParams<Entity> | undefined): Promise<Entity[]> | Entity[]
+  findManyWithTotal(
+    params?: SelectQueryParams<Entity> | undefined,
+  ): Promise<{ data: Entity[]; total: number }> | { data: Entity[]; total: number }
   findOne(params: SelectQueryParams<Entity>): Promise<Entity | null> | Entity | null
   findOneOrThrow(params: SelectQueryParams<Entity>): Promise<Entity> | Entity
   count(params: CountQueryParams<Entity>): Promise<number> | number

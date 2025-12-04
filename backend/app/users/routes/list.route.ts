@@ -1,3 +1,4 @@
+import { can } from "#app/app.ability.ts"
 import authGuard from "#app/auth/auth.guard.ts"
 import createAppRoute from "#app/utils/createAppRoute.ts"
 import listDTO from "#app/utils/list.dto.ts"
@@ -11,17 +12,28 @@ const userListRoute = createAppRoute({
   statusCode: 200,
   description: "Returns a list of all users.",
   tags: ["users"],
-  middleware: [authGuard],
+  middleware: [authGuard, can("read", "User")],
   schemas: {
     query: listQueryDTO(UserDTO),
     response: listDTO(UserDTO),
   },
   async handler({ request, response, container }) {
     const userRepository = container.resolve("userRepository")
+    const ability = container.resolve("ability")
     const limit = request.query?.limit
     const offset = request.query?.offset
-    const data = await userRepository.findMany(request.query)
-    const total = await userRepository.count({ where: request.query?.where })
+    const orderBy = request.query?.orderBy
+    const abilityQuery = ability?.queryFor("read", "User") || undefined
+    const where = {
+      ...request.query.where,
+      $and: abilityQuery && [abilityQuery],
+    }
+    const { data, total } = await userRepository.findManyWithTotal({
+      where,
+      limit,
+      offset,
+      orderBy,
+    })
     response.body = { data, total, limit, offset }
     return response
   },

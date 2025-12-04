@@ -5,9 +5,11 @@ import type RegistryFor from "#lib/di/registryFor.type.ts"
 import type Module from "#lib/module/module.ts"
 import typeOf from "#lib/utils/typeOf.ts"
 
-export default function containerFactory<Registry extends DIRegistry, Imports extends Module[]>(
-  mod: Module<Registry, Imports>,
-) {
+export default function containerFactory<
+  Registry extends DIRegistry,
+  // biome-ignore lint/suspicious/noExplicitAny: It is ok here
+  Imports extends Module<any, any>[],
+>(mod: Module<Registry, Imports>) {
   const container = new AwilixContainer()
   container.register({}, { name: "trace", type: "value" })
 

@@ -30,6 +30,13 @@ export default function createKyselyRepository<Table extends keyof DB>(table: Ta
       return records as Entity[]
     }
 
+    async findManyWithTotal(params = {}) {
+      const { where, limit, orderBy, offset } = params as SelectQueryParams<Table>
+      const data = await this.findMany({ where, limit, orderBy, offset })
+      const total = await this.count({ where })
+      return { data, total }
+    }
+
     async findOne(params: unknown) {
       const record =
         (await selectQuery(
@@ -54,7 +61,7 @@ export default function createKyselyRepository<Table extends keyof DB>(table: Ta
       })
     }
 
-    async count(params: unknown) {
+    async count(params: SelectQueryParams<Table>) {
       const query = countQuery(
         selectQuery(table, params as Pick<SelectQueryParams<Table>, "where">, this.db),
       )
