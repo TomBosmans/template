@@ -135,8 +135,6 @@ export default class ExpressServer implements HTTPServer {
   private async setupStorage() {
     const storage = this.container.resolve("storage")
     await storage.createBucket({ soft: true })
-    // TODO: this should probably happen on migrations etc and not on boot
-    await storage.updatePolicy()
   }
 
   private listen() {

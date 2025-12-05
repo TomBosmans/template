@@ -5,6 +5,7 @@ import Issue from "#lib/exceptions/issue.ts"
 import IssueCode from "#lib/exceptions/issueCode.enum.ts"
 import ValidationException from "#lib/exceptions/validation.exception.ts"
 import type Obj from "#lib/types/obj.type.ts"
+import getType from "#lib/zod/getType.ts"
 import type DTO from "./interface.ts"
 
 type SchemaObject = Record<string, unknown>
@@ -35,6 +36,23 @@ export default function createZodDTO<Schema extends z.ZodSchema>(
     },
     get attributes() {
       return schema instanceof z.ZodObject ? Object.keys(schema.shape) : []
+    },
+
+    get type() {
+      return getType(schema)
+    },
+
+    get attributesWithType() {
+      if (schema instanceof z.ZodObject) {
+        return Object.entries<z.ZodSchema>(schema.shape).reduce(
+          (result, [key, schema]) => {
+            result[key] = getType(schema)
+            return result
+          },
+          {} as Record<string, string>,
+        )
+      }
+      return {}
     },
 
     parse(input: z.input<Schema>) {

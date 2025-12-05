@@ -1,6 +1,6 @@
-import type { S3BucketPolicy } from "#lib/storage/s3.storage.ts"
+import type ObjectStoragePolicy from "#lib/storage/policy.type.ts"
 
-const policy = (bucket: string): S3BucketPolicy => ({
+const policy = (bucket: string): ObjectStoragePolicy => ({
   Version: "2012-10-17",
   Statement: [
     {

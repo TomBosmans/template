@@ -6,6 +6,8 @@ export default interface DTO<
 > {
   openapi: Openapi
   attributes: string[]
+  type: string
+  attributesWithType: Record<string, string>
   schema: Schema
   generateRandom: () => Output
   parse: (input: Input) => Output

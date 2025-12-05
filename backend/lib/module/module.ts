@@ -1,3 +1,4 @@
+import type CLICommand from "#lib/cli/command.interface.ts"
 import type DIRegistry from "#lib/di/registry.type.ts"
 import type HTTPRoute from "#lib/http/route.ts"
 import type { JobConstructor } from "#lib/job/interface.ts"
@@ -17,6 +18,7 @@ export default class Module<
   private readonly _registry: Registry
   private readonly _routes: HTTPRoute[]
   private readonly _jobs: JobRegistry
+  private readonly _commands: CLICommand[]
 
   constructor(
     params: {
@@ -24,12 +26,14 @@ export default class Module<
       registry?: Registry
       routes?: HTTPRoute[]
       jobs?: JobRegistry
+      commands?: CLICommand[]
     } = {},
   ) {
     this._imports = params.imports || ([] as unknown as Imports)
     this._registry = params.registry || ({} as Registry)
     this._routes = params.routes || []
     this._jobs = params.jobs || ({} as JobRegistry)
+    this._commands = params.commands || ([] as unknown as CLICommand[])
   }
 
   public get imports(): Imports {
@@ -45,6 +49,23 @@ export default class Module<
     }
 
     return Array.from(seen) as Imports
+  }
+
+  public get commands(): CLICommand[] {
+    const allModules = [this, ...this.imports]
+    const seen = new Set<CLICommand>()
+    const commands: CLICommand[] = []
+
+    for (const mod of allModules) {
+      for (const command of mod._commands) {
+        if (!seen.has(command)) {
+          seen.add(command)
+          commands.push(command)
+        }
+      }
+    }
+
+    return commands
   }
 
   public get routes(): HTTPRoute[] {

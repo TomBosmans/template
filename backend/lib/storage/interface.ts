@@ -1,3 +1,5 @@
+import type ObjectStoragePolicy from "./policy.type.ts"
+
 export interface ObjectStorage {
   /**
    * Uploads or updates an object in the bucket.
@@ -48,4 +50,14 @@ export interface ObjectStorage {
    * @param params.path Path/key of the object.
    */
   getObject(params: { path: string }): Promise<Buffer | null>
+
+  /**
+   * Applies a policy to the bucket.
+   *
+   * This will replace any existing policy on the bucket.
+   * It can be used to set access permissions, lifecycle rules, or other bucket-level policies.
+   *
+   * @param policy The object storage policy to apply.
+   */
+  applyPolicy(policy: ObjectStoragePolicy): void | Promise<void>
 }
