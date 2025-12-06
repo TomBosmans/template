@@ -16,6 +16,19 @@ services:
       - ./backend:/backend
       - ./emails:/backend/node_modules/emails
 
+  frontend:
+    container_name: ${APP_NAME}_frontend
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    stdin_open: true
+    env_file:
+      - .env
+    ports:
+      - ${FRONTEND_PORT}:3000
+    volumes:
+      - ./frontend:/frontend
+
   emails:
     container_name: ${APP_NAME}_emails
     build:
