@@ -7,14 +7,26 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "biome check .",
-    "preview": "vite preview"
+    "tsc": "tsc --noEmit",
+    "preview": "vite preview",
+    "i18n:pull": "tolgee pull --api-url $TOLGEE_API_URL --api-key $VITE_APP_TOLGEE_API_KEY"
+    "i18n:pull": "tolgee pull --api-url $TOLGEE_API_URL --api-key $VITE_APP_TOLGEE_API_KEY",
+    "i18n:push": "tolgee push --api-url $TOLGEE_API_URL --api-key $VITE_APP_TOLGEE_API_KEY",
+  },
+  "imports": {
+    "#config": "./src/config.ts"
   },
   "dependencies": {
+    "@tolgee/format-icu": "^6.2.7",
+    "@tolgee/react": "^6.2.7",
+    "jotai": "^2.15.2",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "zod": "^4.1.13"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.2",
+    "@tolgee/cli": "^2.14.0",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",

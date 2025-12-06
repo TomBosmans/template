@@ -6,9 +6,6 @@ tolgee:
     initial-password: admin
     initial-username: admin
     jwt-secret: 2xCFuXGR7KccWfGpbGQv4LcktKqvq0MVi5Ehm7hKXeI=
-  machine-translation:
-    google:
-      api-key: my_google_api_key
   smtp:
     auth: false
     from: "Tolgee <noreply@template.com>"
