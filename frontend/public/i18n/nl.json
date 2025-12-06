@@ -1,0 +1,6 @@
+{
+  "count": "De tel is {count}",
+  "hmr-message": "Pas aan <code>src/App.tsx</code> en slaag op om HMR te testen",
+  "learn-more": "Klik op de Vite en React logos om meer te leren",
+  "title": "Vite + React"
+}
