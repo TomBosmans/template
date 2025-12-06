@@ -1,0 +1,25 @@
+tolgee:
+  postgres-autostart:
+    enabled: false
+  authentication:
+    enabled: true
+    initial-password: admin
+    initial-username: admin
+    jwt-secret: 2xCFuXGR7KccWfGpbGQv4LcktKqvq0MVi5Ehm7hKXeI=
+  machine-translation:
+    google:
+      api-key: my_google_api_key
+  smtp:
+    auth: false
+    from: "Tolgee <noreply@template.com>"
+    host: mailpit
+    port: 1025
+    ssl-enabled: false
+    username: ""
+    password: ""
+
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres:5432/tolgee
+    username: postgres
+    password: postgres
