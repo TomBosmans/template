@@ -18,5 +18,4 @@ const config = z
   }))
   .parse(import.meta.env)
 
-console.log(config)
 export default config

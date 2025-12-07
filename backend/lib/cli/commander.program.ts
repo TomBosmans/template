@@ -37,8 +37,6 @@ export default class CommanderProgram<M extends Module<any, any>> implements CLI
     }
 
     command.action(async (...args) => {
-      console.log(schemas?.argument?.attributesWithType)
-      console.log(schemas?.argument?.attributesWithType)
       try {
         const hasArg = !!schemas?.argument
         const argument = schemas?.argument?.parse(args[0])

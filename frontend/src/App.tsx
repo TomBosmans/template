@@ -1,7 +1,6 @@
 import { useState } from "react"
 import viteLogo from "/vite.svg"
 import reactLogo from "./assets/react.svg"
-import "./App.css"
 import I18n from "./i18n/I18n"
 import { I18nSelector } from "./i18n/I18nSelector"
 
