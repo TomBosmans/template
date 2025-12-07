@@ -9,9 +9,10 @@
     "lint": "biome check .",
     "tsc": "tsc --noEmit",
     "preview": "vite preview",
-    "i18n:pull": "tolgee pull --api-url $TOLGEE_API_URL --api-key $VITE_APP_TOLGEE_API_KEY"
     "i18n:pull": "tolgee pull --api-url $TOLGEE_API_URL --api-key $VITE_APP_TOLGEE_API_KEY",
     "i18n:push": "tolgee push --api-url $TOLGEE_API_URL --api-key $VITE_APP_TOLGEE_API_KEY",
+    "ladle": "ladle serve -p 3000",
+    "ladle:build": "ladle build"
   },
   "imports": {
     "#config": "./src/config.ts"
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.2",
+    "@ladle/react": "^5.1.1",
     "@tolgee/cli": "^2.14.0",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",
