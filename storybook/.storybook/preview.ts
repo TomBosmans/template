@@ -1,24 +1,11 @@
-import type { Preview } from "@storybook/react-vite"
-import "../src/tailwind.css"
-import { withThemeByDataAttribute } from "@storybook/addon-themes"
-
-export const decorators = [
-  withThemeByDataAttribute({
-    themes: {
-      light: "light",
-      dark: "dark",
-    },
-    defaultTheme: "dark",
-    attributeName: "data-mode",
-  }),
-]
+import type { Preview } from '@storybook/react-vite'
 
 const preview: Preview = {
   parameters: {
     controls: {
       matchers: {
-        color: /(background|color)$/i,
-        date: /Date$/i,
+       color: /(background|color)$/i,
+       date: /Date$/i,
       },
     },
 
@@ -26,9 +13,9 @@ const preview: Preview = {
       // 'todo' - show a11y violations in the test UI only
       // 'error' - fail CI on a11y violations
       // 'off' - skip a11y checks entirely
-      test: "todo",
-    },
+      test: 'todo'
+    }
   },
-}
+};
 
-export default preview
+export default preview;

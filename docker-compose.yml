@@ -28,6 +28,7 @@ services:
       - ${FRONTEND_PORT}:3000
     volumes:
       - ./frontend:/frontend
+      - ./storybook:/frontend/node_modules/components
 
   emails:
     container_name: ${APP_NAME}_emails
