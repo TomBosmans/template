@@ -1,7 +1,5 @@
 {
   "name": "frontend",
-  "private": true,
-  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,17 +8,17 @@
     "tsc": "tsc --noEmit",
     "preview": "vite preview",
     "i18n:pull": "tolgee pull --api-url $TOLGEE_API_URL --api-key $VITE_APP_TOLGEE_API_KEY",
-    "i18n:push": "tolgee push --api-url $TOLGEE_API_URL --api-key $VITE_APP_TOLGEE_API_KEY",
-    "ladle": "ladle serve -p 3000",
-    "ladle:build": "ladle build"
+    "i18n:push": "tolgee push --api-url $TOLGEE_API_URL --api-key $VITE_APP_TOLGEE_API_KEY"
   },
   "imports": {
     "#config": "./src/config.ts"
   },
   "dependencies": {
+    "@base-ui-components/react": "^1.0.0-rc.0",
     "@tailwindcss/vite": "^4.1.17",
     "@tolgee/format-icu": "^6.2.7",
     "@tolgee/react": "^6.2.7",
+    "components": "file:../storybook",
     "jotai": "^2.15.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
@@ -29,7 +27,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.2",
-    "@ladle/react": "^5.1.1",
     "@tolgee/cli": "^2.14.0",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",

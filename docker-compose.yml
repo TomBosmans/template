@@ -85,20 +85,18 @@ services:
     depends_on:
       - postgres
 
-  ladle:
-    container_name: ${APP_NAME}_ladle
+  storybook:
+    container_name: ${APP_NAME}_storybook
     build:
-      context: frontend
+      context: storybook
       dockerfile: Dockerfile
-    stdin_open: true
-    tty: true
     env_file:
       - .env
     ports:
-      - ${LADLE_PORT}:3000
-    command: ["npm", "run", "ladle"]
+      - ${STORYBOOK_PORT}:3000
+    command: ["npm", "run", "dev"]
     volumes:
-      - ./frontend:/frontend
+      - ./storybook:/storybook
 
 volumes:
   postgres:
