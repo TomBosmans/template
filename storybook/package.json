@@ -1,6 +1,11 @@
 {
   "name": "storybook",
   "type": "module",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/index.d.ts",
   "scripts": {
     "dev": "storybook dev -p 3000 --ci",
     "build": "npm run build:components && npm run build:css",
