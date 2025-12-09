@@ -29,5 +29,5 @@ export default function Button({ className, color, variant = "contained", wide, 
     props.disabled ? "btn-disabled" : "",
     className,
   )
-  return <BaseButton {...props} className={`${klass}`} />
+  return <BaseButton {...props} className={klass} />
 }

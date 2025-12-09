@@ -6,7 +6,6 @@ const meta: Meta<typeof Toggler> = {
   title: "Components/Toggler",
   component: Toggler,
   tags: ["autodocs"],
-  argTypes: {},
   args: { onToggle: fn() },
 }
 
