@@ -17,11 +17,5 @@ export default function I18nSelector() {
     if (value) setLanguage(value)
   }
 
-  return (
-    <Select
-      value={language}
-      options={options}
-      onValueChange={handleValueChange}
-    />
-  )
+  return <Select value={language} options={options} onValueChange={handleValueChange} />
 }

@@ -4,6 +4,7 @@ import viteLogo from "/vite.svg"
 import reactLogo from "./assets/react.svg"
 import I18n from "./i18n/I18n"
 import I18nSelector from "./i18n/I18nSelector"
+import ThemeToggler from "./theme/ThemeToggler"
 
 function App() {
   const [count, setCount] = useState(0)
@@ -19,6 +20,7 @@ function App() {
         </a>
       </div>
       <I18nSelector />
+      <ThemeToggler />
       <h1>
         <I18n keyName="title" />
       </h1>
