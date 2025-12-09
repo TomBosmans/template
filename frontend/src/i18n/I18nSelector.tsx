@@ -1,10 +1,10 @@
 import { useTranslate } from "@tolgee/react"
+import { Select } from "components"
 import { useAtom } from "jotai"
 import config from "#config"
-import Select from "../common/components/Select/Select"
 import { languageAtom } from "./state"
 
-export const I18nSelector = () => {
+export default function I18nSelector() {
   const [language, setLanguage] = useAtom(languageAtom)
   const { t } = useTranslate()
 
@@ -13,11 +13,15 @@ export const I18nSelector = () => {
     label: t(`language.${language}`),
   }))
 
+  const handleValueChange = (value: string) => {
+    if (value) setLanguage(value)
+  }
+
   return (
     <Select
-      options={options}
       value={language}
-      onValueChange={(value) => value && setLanguage(value)}
+      options={options}
+      onValueChange={handleValueChange}
     />
   )
 }

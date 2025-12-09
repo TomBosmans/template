@@ -1,1 +1,2 @@
-@import 'components/styles.css';
+@import 'components/dist/styles.css';
+@source "../node_modules/components";
