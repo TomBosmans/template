@@ -1,0 +1,10 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+.root {
+  isolation: isolate;
+}
+
+body {
+  position: relative;
+}
