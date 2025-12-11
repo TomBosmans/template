@@ -16,10 +16,10 @@
     "lint": "biome check ."
   },
   "peerDependencies": {
+    "daisyui": "^5.5.8",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "tailwindcss": "^4.1.17",
-    "daisyui": "^5.5.8"
+    "tailwindcss": "^4.1.17"
   },
   "dependencies": {
     "@base-ui-components/react": "^1.0.0-rc.0",
