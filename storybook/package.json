@@ -1,16 +1,12 @@
 {
   "name": "storybook",
   "type": "module",
-  "main": "dist/index.js",
+  "main": "src/index.ts",
   "files": [
-    "dist"
+    "src"
   ],
-  "types": "dist/index.d.ts",
   "scripts": {
     "dev": "storybook dev -p 3000 --ci",
-    "build": "npm run build:components && npm run build:css",
-    "build:components": "tsup",
-    "build:css": "cp ./src/styles.css ./dist/styles.css",
     "build:storybook": "storybook build",
     "tsc": "tsc --noEmit -p tsconfig.build.json",
     "lint": "biome check ."
@@ -46,7 +42,6 @@
     "playwright": "^1.57.0",
     "storybook": "^10.1.5",
     "tailwindcss": "^4.1.17",
-    "tsup": "^8.5.1",
     "typescript": "~5.9.3",
     "vite": "^7.2.4",
     "vitest": "^4.0.15"
