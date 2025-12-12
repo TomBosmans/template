@@ -13,7 +13,7 @@ export default function I18nSelector() {
     label: t(`language.${language}`),
   }))
 
-  const handleValueChange = (value: string) => {
+  const handleValueChange = (value: string | null) => {
     if (value) setLanguage(value)
   }
 

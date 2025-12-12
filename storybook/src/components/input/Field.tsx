@@ -1,4 +1,4 @@
-import { Field as BaseField } from "@base-ui-components/react/field"
+import { Field as BaseField, type FieldControlProps } from "@base-ui-components/react/field"
 import clsx from "clsx/lite"
 
 const SIZE = {
@@ -16,6 +16,8 @@ export type Props = {
   description?: string
   size?: keyof typeof SIZE
   disabled?: boolean
+  value?: FieldControlProps["value"]
+  onChange?: FieldControlProps["onChange"]
   placeholder?: string
   type?: React.InputHTMLAttributes<HTMLInputElement>["type"]
   validate?: boolean
@@ -33,6 +35,8 @@ export default function Field({
   type,
   validate,
   className,
+  onChange,
+  value,
 }: Props) {
   const inputKlass = clsx(
     "input",
@@ -53,6 +57,8 @@ export default function Field({
         type={type}
         className={inputKlass}
         placeholder={placeholder}
+        value={value}
+        onChange={onChange}
         disabled={disabled}
         required={required}
       />

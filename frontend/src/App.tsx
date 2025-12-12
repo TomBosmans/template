@@ -2,6 +2,7 @@ import { Button } from "components"
 import { useState } from "react"
 import viteLogo from "/vite.svg"
 import reactLogo from "./assets/react.svg"
+import SignUpForm from "./auth/SignUpForm"
 import I18n from "./i18n/I18n"
 import I18nSelector from "./i18n/I18nSelector"
 import ThemeToggler from "./theme/ThemeToggler"
@@ -35,6 +36,7 @@ function App() {
       <p>
         <I18n keyName="learn-more" />
       </p>
+      <SignUpForm />
     </>
   )
 }

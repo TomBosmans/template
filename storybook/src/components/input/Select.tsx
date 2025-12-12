@@ -13,7 +13,7 @@ export type Props<Value, Multiple extends boolean | undefined> = Omit<
 
 export default function Select<
   Value extends string | number | null | undefined,
-  Multiple extends boolean | undefined,
+  Multiple extends boolean | undefined = false,
 >({ className, options, renderValue, ...props }: Props<Value, Multiple>) {
   const klass = clsx("select", className)
 
