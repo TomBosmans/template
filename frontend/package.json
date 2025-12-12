@@ -8,17 +8,22 @@
     "tsc": "tsc -b --noEmit",
     "preview": "vite preview",
     "i18n:pull": "tolgee pull --api-url $TOLGEE_API_URL --api-key $VITE_APP_TOLGEE_API_KEY",
-    "i18n:push": "tolgee push --api-url $TOLGEE_API_URL --api-key $VITE_APP_TOLGEE_API_KEY"
+    "i18n:push": "tolgee push --api-url $TOLGEE_API_URL --api-key $VITE_APP_TOLGEE_API_KEY",
+    "generate:client": "openapi-ts"
   },
   "imports": {
     "#config": "./src/config.ts"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.17",
+    "@tanstack/react-query": "^5.90.12",
     "@tolgee/format-icu": "^6.2.7",
     "@tolgee/react": "^6.2.7",
+    "axios": "^1.13.2",
     "components": "file:../storybook",
     "jotai": "^2.15.2",
+    "jotai-tanstack-query": "^0.11.0",
+    "qs": "^6.14.0",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
     "tailwindcss": "^4.1.17",
@@ -26,8 +31,11 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.2",
+    "@hey-api/openapi-ts": "^0.89.0",
+    "@tanstack/react-query-devtools": "^5.91.1",
     "@tolgee/cli": "^2.14.0",
     "@types/node": "^24.10.1",
+    "@types/qs": "^6.14.0",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",

@@ -1,9 +1,13 @@
 import * as components from "components"
 import z from "zod"
+import useMapIssuesToFormErrors from "../common/hooks/useMapIssuesToFormErrors"
 import useI18n from "../i18n/I18n.hook"
+import { useSignUp } from "./auth.state"
 
 export default function SignUpForm() {
   const { t } = useI18n()
+  const signUp = useSignUp()
+  const mapIssuesToFormErrors = useMapIssuesToFormErrors("entities.user")
 
   const form = components.useForm({
     defaultValues: {
@@ -13,14 +17,25 @@ export default function SignUpForm() {
       password: "",
       confirmPassword: "",
     },
+    onSubmit: async ({ value, formApi }) => {
+      const result = await signUp(value)
+      if (result.success) return
+      formApi.setErrorMap({ onSubmit: mapIssuesToFormErrors(result.issues, value) })
+    },
     validators: {
-      onChange: z.object({
-        firstName: z.string().min(1, { error: () => t("common.errors.required") }),
-        lastName: z.string().min(1),
-        email: z.email(),
-        password: z.string(),
-        confirmPassword: z.string(),
-      }),
+      onChange: ({ value }) => {
+        const result = z
+          .object({
+            firstName: z.string().min(1),
+            lastName: z.string().min(1),
+            email: z.email(),
+            password: z.string(),
+            confirmPassword: z.string(),
+          })
+          .safeParse(value)
+        if (result.success) return
+        return mapIssuesToFormErrors(result.error.issues, value)
+      },
     },
   })
 
@@ -29,7 +44,9 @@ export default function SignUpForm() {
       <components.FieldSet legend={t("forms.signUp.legend")} border={true}>
         <form.AppField
           name="firstName"
-          children={(field) => <field.TextField label={t("entities.user.firstName")} />}
+          children={(field) => (
+            <field.TextField label={t("entities.user.firstName", { hello: "world" })} />
+          )}
         />
         <form.AppField
           name="lastName"

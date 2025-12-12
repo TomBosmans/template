@@ -17,11 +17,7 @@ const { useAppForm } = createFormHook({
           {...props}
           value={field.state.value}
           type="text"
-          error={
-            field.state.meta.isTouched
-              ? field.state.meta.errors.map((e) => e.message).join(", ")
-              : undefined
-          }
+          error={field.state.meta.isTouched ? field.state.meta.errors.join(", ") : undefined}
           onChange={(e) => field.handleChange(e.target.value)}
         />
       )
