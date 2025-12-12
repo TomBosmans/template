@@ -1,5 +1,4 @@
-import { Toggler } from "components"
-import Icon from "../Icon"
+import { Icon, Toggler } from "components"
 
 export default function ThemeToggler() {
   const prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches

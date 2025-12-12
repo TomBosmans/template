@@ -1,6 +1,7 @@
 export { default as Button, type Props as ButtonProps } from "./components/Button.tsx"
 export { default as useForm } from "./components/Form/Form.hook.tsx"
 export { default as Form, type Props as FormProps } from "./components/Form/Form.tsx"
+export { default as Icon, type Props as IconProps } from "./components/Icon/index.tsx"
 export { default as Field, type Props as FieldProps } from "./components/input/Field.tsx"
 export { default as FieldSet, type Props as FieldSetProps } from "./components/input/Fieldset.tsx"
 export { default as Select, type Props as SelectProps } from "./components/input/Select.tsx"
