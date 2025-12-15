@@ -4,6 +4,7 @@ import viteLogo from "/vite.svg"
 import reactLogo from "./assets/react.svg"
 import { useProfile } from "./auth/auth.state"
 import SignInForm from "./auth/SignInForm"
+import SignOutButton from "./auth/SignOutButton"
 import SignUpForm from "./auth/SignUpForm"
 import I18n from "./i18n/I18n"
 import I18nSelector from "./i18n/I18nSelector"
@@ -42,6 +43,7 @@ function App() {
       {JSON.stringify(profile, null, 2)}
       <SignUpForm />
       <SignInForm />
+      <SignOutButton />
     </>
   )
 }

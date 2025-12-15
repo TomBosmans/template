@@ -6,4 +6,5 @@ export { default as Field, type Props as FieldProps } from "./components/input/F
 export { default as FieldSet, type Props as FieldSetProps } from "./components/input/Fieldset.tsx"
 export { default as Select, type Props as SelectProps } from "./components/input/Select.tsx"
 export { default as Join, type Props as JoinProps } from "./components/Join.tsx"
+export { default as Link, type Props as LinkProps } from "./components/Link.tsx"
 export { default as Toggler, type Props as TogglerProps } from "./components/Toggler.tsx"

@@ -32,6 +32,10 @@ export const signOutAtom = atomWithMutation((get) => ({
     queryClient.invalidateQueries({ queryKey: getProfileOptions().queryKey })
   },
 }))
+export const useSignOut = () => {
+  const signOut = useAtomValue(signOutAtom)
+  return { signOut: () => signOut.mutateAsync({}), isPending: signOut.isPending }
+}
 
 export const signInAtom = atomWithMutation((get) => ({
   mutationKey: postSignInMutation().mutationKey,

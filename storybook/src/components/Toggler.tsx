@@ -1,5 +1,5 @@
 import { Field } from "@base-ui-components/react/field"
-import clsx from "clsx"
+import clsx from "clsx/lite"
 import { useState } from "react"
 
 export type Props = {
@@ -11,6 +11,12 @@ export type Props = {
   on: React.JSX.Element | string
   off: React.JSX.Element | string
   className?: string
+  position?: "top-left" | "default"
+}
+
+const POSITION = {
+  default: "",
+  "top-left": "fixed top-0 left-0 mt-2 ml-2",
 }
 
 export default function Toggler({
@@ -21,10 +27,11 @@ export default function Toggler({
   value,
   on,
   off,
+  position = "default",
   defaultOn = false,
 }: Props) {
   const [isOn, setIsOn] = useState(defaultOn)
-  const klass = clsx("swap", rotate && "swap-rotate", flip && "swap-flip")
+  const klass = clsx("swap", rotate && "swap-rotate", flip && "swap-flip", POSITION[position])
   const handleChange = () => {
     setIsOn(!isOn)
     onToggle?.(!isOn)
