@@ -14,9 +14,9 @@ const { useAppForm } = createFormHook({
       const field = useFieldContext<string>()
       return (
         <Field
+          type="text"
           {...props}
           value={field.state.value}
-          type="text"
           error={field.state.meta.isTouched ? field.state.meta.errors.join(", ") : undefined}
           onChange={(e) => field.handleChange(e.target.value)}
         />

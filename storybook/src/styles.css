@@ -2,10 +2,10 @@
 @plugin "daisyui" {
   /* biome-ignore lint/correctness/noUnknownProperty: This is valid for tailwind */
   themes:
-    light --default,
-    dark --prefersdark;
+    nord --default,
+    night --prefersdark;
 }
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+@custom-variant dark (&:where([data-theme="night"], [data-theme="night"] *));
 
 .root {
   isolation: isolate;

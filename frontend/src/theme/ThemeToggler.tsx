@@ -8,12 +8,12 @@ export default function ThemeToggler({ className, position }: ThemeTogglerProps)
   return (
     <Toggler
       rotate
-      value="dark"
+      value="night"
       defaultOn={prefersDarkMode}
       position={position}
       className={clsx("theme-controller", className)}
-      on={<Icon name="moon" className="w-6 h-6" />}
-      off={<Icon name="sun" className="w-6 h-6" />}
+      on={<Icon name="sun" className="w-6 h-6" />}
+      off={<Icon name="moon" className="w-6 h-6" />}
     />
   )
 }

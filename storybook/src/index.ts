@@ -1,4 +1,5 @@
 export { default as Button, type Props as ButtonProps } from "./components/Button.tsx"
+export { default as Card, type Props as CardProps } from "./components/Card.tsx"
 export { default as useForm } from "./components/Form/Form.hook.tsx"
 export { default as Form, type Props as FormProps } from "./components/Form/Form.tsx"
 export { default as Icon, type Props as IconProps } from "./components/Icon/index.tsx"

@@ -12,6 +12,7 @@ import { abilityBuilder } from "./ability"
 
 export const profileAtom = atomWithQuery(() => getProfileOptions())
 export const useProfile = () => useAtomValue(profileAtom)?.data
+export const useAuthenticated = () => !!useAtomValue(profileAtom)?.data
 
 export const abilityAtom = atom((get) => {
   const profile = get(profileAtom)

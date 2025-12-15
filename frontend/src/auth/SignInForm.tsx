@@ -4,7 +4,11 @@ import useMapIssuesToFormErrors from "../common/hooks/useMapIssuesToFormErrors"
 import useI18n from "../i18n/I18n.hook"
 import { useSignIn } from "./auth.state"
 
-export default function SignInForm() {
+type Props = {
+  onSuccess?: () => void
+}
+
+export default function SignInForm({ onSuccess }: Props) {
   const { t } = useI18n()
   const signIn = useSignIn()
   const mapIssuesToFormErrors = useMapIssuesToFormErrors("entities.user")
@@ -16,7 +20,7 @@ export default function SignInForm() {
     },
     onSubmit: async ({ value, formApi }) => {
       const result = await signIn(value)
-      if (result.success) return
+      if (result.success) return onSuccess?.()
       formApi.setErrorMap({ onSubmit: mapIssuesToFormErrors(result.issues, value) })
     },
     validators: {
@@ -30,7 +34,7 @@ export default function SignInForm() {
 
   return (
     <Form onFormSubmit={form.handleSubmit}>
-      <FieldSet legend={t("forms.signIn.legend")} border={true}>
+      <FieldSet>
         <form.AppField
           name="email"
           children={(field) => <field.TextField type="email" label={t("entities.user.email")} />}

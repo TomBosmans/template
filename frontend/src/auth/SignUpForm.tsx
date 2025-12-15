@@ -41,7 +41,7 @@ export default function SignUpForm() {
 
   return (
     <Form onFormSubmit={form.handleSubmit}>
-      <FieldSet legend={t("forms.signUp.legend")} border={true}>
+      <FieldSet>
         <form.AppField
           name="firstName"
           children={(field) => (
