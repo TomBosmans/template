@@ -7,12 +7,12 @@ export default function NotFoundPage() {
     <>
       <ThemeToggler position="top-left" />
       <main className="grid min-h-full place-items-center px-6 py-24 sm:py-32 lg:px-8">
-        <div className="text-center">
+        <div className="text-center prose">
           <p className="text-base font-semibold text-indigo-400">404</p>
-          <h1 className="mt-4 text-5xl font-semibold tracking-tight text-balance sm:text-7xl">
+          <h1>
             <I18n keyName="pages.notFound.title" default="Page not found" />
           </h1>
-          <p className="mt-6 text-lg font-medium text-pretty sm:text-xl/8">
+          <p>
             <I18n
               keyName="pages.notFound.message"
               default="Sorry, we couldn’t find the page you’re looking for."

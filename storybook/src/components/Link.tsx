@@ -3,9 +3,9 @@ import { forwardRef } from "react"
 
 const VARIANT = {
   default: "link",
-  contained: "btn",
-  outlined: "btn btn-outline",
-  text: "btn btn-ghost",
+  contained: "btn no-underline",
+  outlined: "btn btn-outline no-underline",
+  text: "btn btn-ghost no-underline",
 } as const
 
 const COLOR = {
