@@ -1,4 +1,4 @@
-import { atom } from "jotai"
+import { atom, useAtomValue } from "jotai"
 import { atomWithMutation, atomWithQuery, queryClientAtom } from "jotai-tanstack-query"
 import { type PostSignInData, type PostSignUpData, postSignIn, postSignUp } from "../client"
 import {
@@ -8,8 +8,16 @@ import {
   postSignUpMutation,
 } from "../client/@tanstack/react-query.gen"
 import { useMutationAtom } from "../common/hooks/useMutationAtom"
+import { abilityBuilder } from "./ability"
 
 export const profileAtom = atomWithQuery(() => getProfileOptions())
+export const useProfile = () => useAtomValue(profileAtom)?.data
+
+export const abilityAtom = atom((get) => {
+  const profile = get(profileAtom)
+  return abilityBuilder(profile.data?.rules)
+})
+export const useAbility = () => useAtomValue(abilityAtom)
 
 export const signUpAtom = atomWithMutation(() => ({
   mutationKey: postSignUpMutation().mutationKey,
@@ -36,6 +44,7 @@ export const signInAtom = atomWithMutation((get) => ({
     return result
   },
 }))
+export const useSignIn = () => useMutationAtom(signInAtom)
 
 export const isAuthenticatedAtom = atom((get) => {
   return !!get(profileAtom).data

@@ -1,6 +1,7 @@
 /** biome-ignore-all lint/suspicious/noTemplateCurlyInString: It is ok here */
 import assert from "node:assert"
 import { describe, it } from "node:test"
+import interpolate from "#lib/utils/interpolate.ts"
 import type Rule from "../ability.rule.ts"
 import CaslAbility from "../casl.ability.ts"
 
@@ -21,7 +22,7 @@ type Subject = {
   List: List
 }
 
-class Ability extends CaslAbility<Action, RuleAction, Subject, { user: User }> {
+class Ability extends CaslAbility<Action, RuleAction, Subject> {
   public get resolveAction() {
     return { crud: ["create", "read", "update", "delete"] satisfies Action[] }
   }
@@ -40,8 +41,7 @@ describe("Ability", () => {
     ] satisfies Rule<RuleAction, Subject>[]
 
     const ability = new Ability({
-      rules,
-      user,
+      rules: interpolate(JSON.stringify(rules), { user }),
     })
 
     assert.ok(ability.can("read", "User"))

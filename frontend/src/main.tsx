@@ -8,7 +8,7 @@ import App from "./App.tsx"
 import axios from "./axios.ts"
 import { client } from "./client/client.gen.ts"
 import I18nProvider from "./i18n/I18nProvider.tsx"
-import queryClient, { HydrateAtoms } from "./query.client.tsx"
+import queryClient, { HydrateAtoms } from "./query.client.ts"
 import store from "./store.ts"
 
 const rootElement = document.getElementById("root")

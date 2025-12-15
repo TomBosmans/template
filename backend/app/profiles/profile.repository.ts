@@ -5,6 +5,7 @@ import type { Session } from "#app/sessions/session.entities.ts"
 import type { User } from "#app/users/user.entities.ts"
 import type { OutputMatchingEntity } from "#lib/dto/zod.dto.ts"
 import RecordNotFoundException from "#lib/exceptions/recordNotFound.exception.ts"
+import interpolate from "#lib/utils/interpolate.ts"
 
 // INFO: We need to use something to transform the json from the sql into the expected types
 const userSchema = z.object({
@@ -56,13 +57,19 @@ export default class ProfileRepository {
 
     const rules: Rule[] =
       this.roleRepository.findOne({ where: { name: profile.user.role } })?.rules || []
-    return schema.parse({ ...profile, rules })
+    return schema.parse({ ...profile, rules: this.interpolateRules(rules, profile) })
   }
 
   async findOneOrThrow(params: { where: { hashedToken: string } }) {
     const profile = await this.findOne(params)
     if (!profile) throw new RecordNotFoundException({ entity: "profile" })
     return profile
+  }
+
+  private interpolateRules(rules: Rule[], profile: Record<string, unknown>) {
+    return rules.flatMap((rule) => {
+      return interpolate<Rule[]>(JSON.stringify(rule), profile)
+    })
   }
 
   private get query() {

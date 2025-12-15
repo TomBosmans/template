@@ -4,7 +4,8 @@ import { NewUserDTO, UserDTO } from "../user.dtos.ts"
 
 const createUserCommand = createAppCommand({
   name: "users:create",
-  description: "Create a new user with the specified options (e.g., email, firstName, lastName, password).",
+  description:
+    "Create a new user with the specified options (e.g., email, firstName, lastName, password).",
   schemas: { options: NewUserDTO },
 
   async run({ options, container }) {

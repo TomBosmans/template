@@ -9,7 +9,6 @@ import {
 } from "@casl/ability"
 import { rulesToQuery } from "@casl/ability/extra"
 import type { BasicWhere } from "#lib/repository/types.ts"
-import interpolate from "#lib/utils/interpolate.ts"
 import type Ability from "./ability.interface.ts"
 import type Rule from "./ability.rule.ts"
 
@@ -17,7 +16,6 @@ export default class CaslAbility<
   Action extends string,
   RuleAction extends string,
   Subject extends Record<string, Record<string, unknown>>,
-  Profile extends Record<string, unknown> = Record<string, unknown>,
   ResolveAction extends Record<string, Action[]> = Record<string, Action[]>,
 > implements Ability<Action, Subject>
 {
@@ -26,19 +24,13 @@ export default class CaslAbility<
   }
   private readonly ability: PureAbility<[any, any], MongoQuery>
 
-  constructor({ rules, ...profile }: { rules: Rule<RuleAction, Subject>[] } & Profile) {
+  constructor({ rules }: { rules: Rule<RuleAction, Subject>[] }) {
     const casl = new AbilityBuilder<typeof this.ability>(createMongoAbility)
-    this.interpolateRules(rules, profile).forEach(({ action, subject, conditions }) => {
+    rules.forEach(({ action, subject, conditions }) => {
       casl.can(action, subject, conditions as any)
     })
     this.ability = casl.build({
       resolveAction: createAliasResolver(this.resolveAction),
-    })
-  }
-
-  private interpolateRules(rules: Rule<RuleAction, Subject>[], profile: Record<string, unknown>) {
-    return rules.flatMap((rule) => {
-      return interpolate<Rule<Action, Subject>[]>(JSON.stringify(rule), profile)
     })
   }
 

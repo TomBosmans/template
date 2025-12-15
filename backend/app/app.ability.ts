@@ -4,7 +4,6 @@ import type { User } from "#app/users/user.entities.ts"
 import Ability from "#lib/ability/casl.ability.ts"
 import UnauthorizedException from "#lib/exceptions/unauthorized.exception.ts"
 import type Middleware from "#lib/http/middleware.type.ts"
-import type Profile from "./profiles/profile.entity.ts"
 import type RequestRegistry from "./request.registry.ts"
 
 export type Action = "read" | "create" | "update" | "delete"
@@ -23,7 +22,7 @@ export function can(action: Action, subject: keyof Subject) {
   return canGuard
 }
 
-export default class AppAbility extends Ability<Action, RuleAction, Subject, Profile> {
+export default class AppAbility extends Ability<Action, RuleAction, Subject> {
   public get resolveAction() {
     return { crud: ["create", "read", "update", "delete"] satisfies Action[] }
   }
