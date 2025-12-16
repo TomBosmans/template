@@ -1,13 +1,14 @@
 import { createLink } from "@tanstack/react-router"
 import { Link, type LinkProps } from "components"
-import { forwardRef } from "react"
+import type { AnchorHTMLAttributes, Ref } from "react"
 
-export type NavLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & LinkProps
+export type NavLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> &
+  LinkProps & {
+    ref?: Ref<HTMLAnchorElement>
+  }
 
-const NavLink = createLink(
-  forwardRef<HTMLAnchorElement, NavLinkProps>((props, ref) => {
-    return <Link ref={ref} {...props} />
-  }),
-)
+const NavLink = createLink((props: NavLinkProps) => {
+  return <Link {...props} />
+})
 
 export default NavLink

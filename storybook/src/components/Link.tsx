@@ -1,5 +1,5 @@
 import { clsx } from "clsx/lite"
-import { forwardRef } from "react"
+import type { AnchorHTMLAttributes } from "react"
 
 const VARIANT = {
   default: "link",
@@ -21,19 +21,23 @@ const COLOR = {
     secondary: "btn-secondary",
     error: "btn-error",
   },
-}
+} as const
 
-export type Props = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+export type Props = AnchorHTMLAttributes<HTMLAnchorElement> & {
   variant?: keyof typeof VARIANT
   color?: keyof (typeof COLOR)["default"]
 }
 
-const Link = forwardRef<HTMLAnchorElement, Props>(
-  ({ className, variant = "default", color = "default", ...props }, ref) => {
-    const colorClassName = variant === "default" ? COLOR.default[color] : COLOR.button[color]
-    const klass = clsx(VARIANT[variant], colorClassName, className)
-    return <a {...props} ref={ref} className={klass} />
-  },
-)
-Link.displayName = "Link"
-export default Link
+export default function Link({
+  className,
+  variant = "default",
+  color = "default",
+  ref,
+  ...props
+}: Props & { ref?: React.Ref<HTMLAnchorElement> }) {
+  const colorClassName = variant === "default" ? COLOR.default[color] : COLOR.button[color]
+
+  const klass = clsx(VARIANT[variant], colorClassName, className)
+
+  return <a {...props} ref={ref} className={klass} />
+}

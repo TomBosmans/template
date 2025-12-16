@@ -13,5 +13,5 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {}
 export const DefaultPrimary: Story = { args: { color: "primary" } }
-export const Burron: Story = { args: { variant: "contained" } }
-export const BurronPrimary: Story = { args: { variant: "contained", color: "primary" } }
+export const Button: Story = { args: { variant: "contained" } }
+export const ButtonPrimary: Story = { args: { variant: "contained", color: "primary" } }
