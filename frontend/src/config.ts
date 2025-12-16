@@ -6,9 +6,14 @@ const config = z
     VITE_APP_TOLGEE_LANGUAGES_AVAILABLE: z.string().transform((v) => v.split(",")),
     VITE_APP_TOLGEE_API_URL: z.url().optional(),
     VITE_APP_TOLGEE_API_KEY: z.string().optional(),
-    VITE_OPENAPI_INPUT: z.string(),
+    VITE_APP_OPENAPI_INPUT: z.string(),
+    VITE_APP_BACKEND_URL: z.url(),
   })
   .transform((config) => ({
+    backend: {
+      url: config.VITE_APP_BACKEND_URL
+    },
+
     tolgee: {
       api: { key: config.VITE_APP_TOLGEE_API_KEY, url: config.VITE_APP_TOLGEE_API_URL },
       languages: {
@@ -18,7 +23,7 @@ const config = z
     },
 
     openapi: {
-      input: config.VITE_OPENAPI_INPUT,
+      input: config.VITE_APP_OPENAPI_INPUT,
     },
   }))
   .parse(import.meta.env)
