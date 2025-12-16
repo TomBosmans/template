@@ -60,7 +60,7 @@ export default class AuthService {
   public async signIn(params: { email: string; password: string }) {
     const obscureIssue = new Issue({
       code: "custom",
-      path: [],
+      path: ["password"],
       message: "Invalid email or password",
     })
     const user = await this.userRepository.findOne({ where: { email: params.email } })

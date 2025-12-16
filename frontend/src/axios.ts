@@ -18,7 +18,12 @@ axios.interceptors.response.use(
     if (error.response?.status === 401) {
       router.navigate({ to: "/sign_in", search: { from: window.location.pathname } })
     }
-    return Promise.reject(error)
+
+    if (error.response?.status === 400) {
+      return Promise.reject(error)
+    }
+
+    throw Promise.reject(error)
   },
 )
 
