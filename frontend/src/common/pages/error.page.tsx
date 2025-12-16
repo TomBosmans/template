@@ -1,27 +1,26 @@
+import type { ErrorComponentProps } from "@tanstack/react-router"
+import { Button } from "components"
 import I18n from "../../i18n/I18n"
 import ThemeToggler from "../../theme/ThemeToggler"
 import NavLink from "../components/NavLink"
 
-export default function NotFoundPage() {
+export default function ErrorPage({ reset }: ErrorComponentProps) {
   return (
     <>
       <ThemeToggler position="top-left" />
       <main className="grid min-h-full place-items-center px-6 py-24 sm:py-32 lg:px-8">
         <div className="text-center prose">
-          <p className="text-base font-semibold text-indigo-400">404</p>
+          <p className="text-base font-semibold text-indigo-400">500</p>
           <h1>
-            <I18n keyName="pages.notFound.title" default="Page not found" />
+            <I18n keyName="pages.error.title" default="Something went wrong" />
           </h1>
           <p>
-            <I18n
-              keyName="pages.notFound.message"
-              default="Sorry, we couldn’t find the page you’re looking for."
-            />
+            <I18n keyName="pages.error.message" default="Sorry, something went wrong there." />
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
-            <NavLink to="/" variant="contained" color="primary">
-              <I18n keyName="common.actions.back" default="Go back home" />
-            </NavLink>
+            <Button variant="contained" color="primary" onClick={reset}>
+              <I18n keyName="common.actions.retry" default="Try again" />
+            </Button>
             <NavLink to="/">
               <I18n
                 keyName="common.actions.support"
