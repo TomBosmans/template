@@ -1,3 +1,4 @@
+export { default as Avatar, type Props as AvatarProps } from "./components/Avatar.tsx"
 export { default as Button, type Props as ButtonProps } from "./components/Button.tsx"
 export { default as Card, type Props as CardProps } from "./components/Card.tsx"
 export { default as useForm } from "./components/Form/Form.hook.tsx"
@@ -8,6 +9,7 @@ export { default as FieldSet, type Props as FieldSetProps } from "./components/i
 export { default as Select, type Props as SelectProps } from "./components/input/Select.tsx"
 export { default as Join, type Props as JoinProps } from "./components/Join.tsx"
 export { default as Link, type Props as LinkProps } from "./components/Link.tsx"
+export { default as Navbar, type Props as NavbarProps } from "./components/Navbar.tsx"
 export {
   createToastManager,
   default as ToastList,
