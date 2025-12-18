@@ -9,6 +9,7 @@ import {
 } from "../client/@tanstack/react-query.gen"
 import { useMutationAtom } from "../common/hooks/useMutationAtom"
 import { abilityBuilder } from "./ability"
+import router from "../router"
 
 export const profileAtom = atomWithQuery(() => getProfileOptions())
 export const useProfile = () => useAtomValue(profileAtom)?.data
@@ -31,6 +32,7 @@ export const signOutAtom = atomWithMutation((get) => ({
   onSuccess: () => {
     const queryClient = get(queryClientAtom)
     queryClient.invalidateQueries({ queryKey: getProfileOptions().queryKey })
+    router.navigate({ to: "/sign_in" })
   },
 }))
 export const useSignOut = () => {

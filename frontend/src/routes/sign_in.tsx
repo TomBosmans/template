@@ -12,7 +12,7 @@ function RouteComponent() {
   const { t } = useI18n()
   const navigate = useNavigate()
   const search = Route.useSearch()
-  const handleSuccess = () => navigate({ to: search.from || "/" })
+  const handleSuccess = () => navigate({ to: search.from || "/dashboard" })
 
   return (
     <AuthLayout title={t("forms.signIn.legend")}>
