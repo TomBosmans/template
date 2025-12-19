@@ -8,8 +8,8 @@ import {
   postSignUpMutation,
 } from "../client/@tanstack/react-query.gen"
 import { useMutationAtom } from "../common/hooks/useMutationAtom"
-import { abilityBuilder } from "./ability"
 import router from "../router"
+import { abilityBuilder } from "./ability"
 
 export const profileAtom = atomWithQuery(() => getProfileOptions())
 export const useProfile = () => useAtomValue(profileAtom)?.data

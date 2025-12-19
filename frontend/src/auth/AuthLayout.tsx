@@ -9,7 +9,7 @@ export default function AuthLayout({ children, title }: Props) {
   return (
     <div className="flex min-h-full flex-col justify-center items-center px-6 py-12 lg:px-8">
       <ThemeToggler position="top-left" />
-      <Card>
+      <Card className="max-w-sm w-full shrink-0 shadow-2xl">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm prose text-center">
           <img
             alt="Your Company"

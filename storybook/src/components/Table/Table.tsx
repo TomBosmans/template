@@ -23,15 +23,17 @@ export type TableColumn<Data extends RowData> = {
 
 export type Props<Data extends RowData> = {
   data: Data[]
-  columns: TableColumn<Data>
+  columns: Partial<TableColumn<Data>>
   zebra?: boolean
   className?: string
 }
 export default function Table<Data extends RowData>({ columns, data, zebra }: Props<Data>) {
   const klass = clsx("table", zebra && "table-zebra")
-  const columnDef = Object.entries<IdentifiedColumnDef<any, any>>(columns).map(([key, column]) => {
-    return columnHelper.accessor(key, column)
-  })
+  const columnDef = Object.entries<IdentifiedColumnDef<any, any>>(columns as any).map(
+    ([key, column]) => {
+      return columnHelper.accessor(key, column)
+    },
+  )
   const table = useReactTable({
     data,
     columns: columnDef as any,

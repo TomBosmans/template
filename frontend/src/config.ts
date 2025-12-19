@@ -11,7 +11,7 @@ const config = z
   })
   .transform((config) => ({
     backend: {
-      url: config.VITE_APP_BACKEND_URL
+      url: config.VITE_APP_BACKEND_URL,
     },
 
     tolgee: {

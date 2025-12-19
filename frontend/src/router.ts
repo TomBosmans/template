@@ -7,7 +7,7 @@ import { routeTree } from "./routeTree.gen"
 const router = createRouter({
   routeTree,
   context: {
-    queryClient
+    queryClient,
   },
   defaultNotFoundComponent: NotFoundPage,
   defaultErrorComponent: ErrorPage,
