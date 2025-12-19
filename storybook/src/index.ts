@@ -10,6 +10,7 @@ export { default as Select, type Props as SelectProps } from "./components/input
 export { default as Join, type Props as JoinProps } from "./components/Join.tsx"
 export { default as Link, type Props as LinkProps } from "./components/Link.tsx"
 export { default as Navbar, type Props as NavbarProps } from "./components/Navbar.tsx"
+export { default as Table, type Props as TableProps } from "./components/Table/Table.tsx"
 export {
   createToastManager,
   default as ToastList,
