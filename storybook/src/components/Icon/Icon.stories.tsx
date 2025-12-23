@@ -16,3 +16,7 @@ type Story = StoryObj<typeof Icon>
 export const Chevron: Story = { args: { name: "chevron", className: "h-10 w-10" } }
 export const Moon: Story = { args: { name: "moon", className: "h-10 w-10" } }
 export const Sun: Story = { args: { name: "sun", className: "h-10 w-10" } }
+export const Home: Story = { args: { name: "home", className: "h-10 w-10" } }
+export const DrawerOpen: Story = { args: { name: "drawerOpen", className: "h-10 w-10" } }
+export const DrawerClosed: Story = { args: { name: "drawerClosed", className: "h-10 w-10" } }
+export const Settings: Story = { args: { name: "settings", className: "h-10 w-10" } }
